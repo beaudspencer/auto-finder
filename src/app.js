@@ -28,7 +28,7 @@ export default class App extends React.Component {
       method: 'POST',
       body: requestData
     })
-      .then(res => res.text())
+      .then(res => res.json())
       .then(data => {
         console.log(data)
       })
