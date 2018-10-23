@@ -6,7 +6,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      page: 'load'
+      page: 'uploader',
+      cars: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -20,10 +21,12 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
+        const cars = this.state.cars.slice()
+        cars.push(data[0])
         this.setState({
-          page: 'uploader'
+          page: 'car',
+          cars: cars
         })
-        console.log(data)
       })
   }
   render() {

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 
 const styles = {
   load: {
-    'text-align': 'center',
+    'textAlign': 'center',
     margin: '4rem'
   }
 }
