@@ -36,9 +36,9 @@ export default function App(props) {
       <Card style={styles.card}>
         <CardContent style={styles.content}>
           <form
-            action="/"
+            action="/upload"
             method="post"
-            encType="multipart/from-data"
+            encType="multipart/form-data"
           >
             <Input type="file" name="image"/>
             <Button
