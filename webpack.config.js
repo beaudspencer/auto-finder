@@ -8,6 +8,9 @@ module.exports = {
     filename: 'main.js',
     path: path.join(__dirname, 'public/')
   },
+  node: {
+    fs: 'empty'
+  },
   module: {
     rules: [
       {
