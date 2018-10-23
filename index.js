@@ -4,6 +4,7 @@ const express = require('express')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk')
+const Algorithmia = require('algorithmia')
 
 const albumBucketName = 'auto-finder'
 const bucketRegion = 'us-east-1'
@@ -39,10 +40,15 @@ const upload = multer({
 
 const app = express()
 
-app.get('/', express.static('public'))
+app.use(express.static('src'))
 
 app.post('/', upload.single('image'), (req, res, next) => {
-  res.send(req.file.location)
+  Algorithmia.client('simkdRj4EGyiMjAELRv7CMzTUod1')
+    .algo('LgoBE/CarMakeandModelRecognition/0.3.15')
+    .pipe(req.file.location)
+    .then(response => {
+      res.send(response.get())
+    })
 })
 
 app.listen(process.env.PORT, () => {
