@@ -16,41 +16,56 @@ const styles = {
   }
 }
 
-export default function App(props) {
-  return (
-    <div>
-      <Typography
-        variant="h1"
-        align="center"
-        gutterBottom
-      >
-        Auto-Finder
-      </Typography>
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-      >
-        Upload a Photo of a car to get Started
-      </Typography>
-      <Card style={styles.card}>
-        <CardContent style={styles.content}>
-          <form
-            action="/upload"
-            method="post"
-            encType="multipart/form-data"
-          >
-            <Input type="file" name="image"/>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-            Submit!
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  )
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+  handleSubmit(event) {
+    event.preventDefault()
+    const requestData = new FormData(event.target.closest('form'))
+    fetch('/', {
+      method: 'POST',
+      body: requestData
+    })
+      .then(res => res.text())
+      .then(data => {
+        console.log(data)
+      })
+  }
+  render() {
+    return (
+      <div>
+        <Typography
+          variant="h1"
+          align="center"
+          gutterBottom
+        >
+          Auto-Finder
+        </Typography>
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+        >
+          Upload a Photo of a car to get Started
+        </Typography>
+        <Card style={styles.card}>
+          <CardContent style={styles.content}>
+            <form>
+              <Input type="file" name="image"/>
+              <Button
+                onClick={this.handleSubmit}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+              Submit!
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 }
