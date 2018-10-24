@@ -12,10 +12,8 @@ export default class App extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleSubmit(event) {
+  handleSubmit(requestData) {
     this.setState({page: 'load'})
-    event.preventDefault()
-    const requestData = new FormData(event.target.closest('form'))
     fetch('/', {
       method: 'POST',
       body: requestData
