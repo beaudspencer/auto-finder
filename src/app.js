@@ -1,13 +1,14 @@
 import React from 'react'
 import Uploader from './uploader'
 import Load from './load'
+import CarCard from './car-card'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       page: 'uploader',
-      cars: []
+      car: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -21,11 +22,13 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        const cars = this.state.cars.slice()
-        cars.push(data[0])
+        const car = {
+          info: data[0][0],
+          link: data[1]
+        }
         this.setState({
           page: 'car',
-          cars: cars
+          car: car
         })
       })
   }
@@ -37,6 +40,9 @@ export default class App extends React.Component {
         }
         {this.state.page === 'load' &&
         <Load/>
+        }
+        {this.state.page === 'car' &&
+        <CarCard car={this.state.car}/>
         }
       </React.Fragment>
     )
