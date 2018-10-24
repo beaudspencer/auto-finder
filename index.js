@@ -12,8 +12,8 @@ const bucketRegion = 'us-east-1'
 AWS.config.update({
   region: bucketRegion,
   credentials: {
-    accessKeyId: 'AKIAICV3K4RZ5ZWLM2FQ',
-    secretAccessKey: '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'
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_KEY
   }
 })
 
@@ -21,9 +21,6 @@ const s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   params: {Bucket: albumBucketName}
 })
-
-// const IAM-SECRET-KEY = RuUDQqMstOKEtgtghA4dUpJaKOGhtz2M7UpGCEl2
-// const IAM-KEY = AKIAICV3K4RZ5ZWLM2FQ
 
 const upload = multer({
   storage: multerS3({
@@ -40,14 +37,14 @@ const upload = multer({
 
 const app = express()
 
-app.use(express.static('src'))
+app.use(express.static('public'))
 
 app.post('/', upload.single('image'), (req, res, next) => {
   Algorithmia.client('simkdRj4EGyiMjAELRv7CMzTUod1')
     .algo('LgoBE/CarMakeandModelRecognition/0.3.15')
     .pipe(req.file.location)
     .then(response => {
-      res.send(response.get())
+      res.send([response.get(), req.file.location])
     })
 })
 
