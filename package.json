@@ -1,8 +1,8 @@
 {
-  "name": "my-project",
+  "name": "auto-finder",
   "private": true,
   "version": "1.0.0",
-  "description": "My cool project.",
+  "description": "a web application for car buyers to identify and purchase a car",
   "scripts": {
     "start": "node index.js",
     "build": "webpack",
