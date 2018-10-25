@@ -6,8 +6,8 @@ const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk')
 const Algorithmia = require('algorithmia')
 
-const albumBucketName = 'auto-finder'
-const bucketRegion = 'us-east-1'
+const albumBucketName = process.env.BUCKET
+const bucketRegion = process.env.REGION
 
 AWS.config.update({
   region: bucketRegion,
@@ -25,7 +25,7 @@ const s3 = new AWS.S3({
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'auto-finder',
+    bucket: albumBucketName,
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname})
     },
@@ -40,8 +40,8 @@ const app = express()
 app.use(express.static('public'))
 
 app.post('/', upload.single('image'), (req, res, next) => {
-  Algorithmia.client('simkdRj4EGyiMjAELRv7CMzTUod1')
-    .algo('LgoBE/CarMakeandModelRecognition/0.3.15')
+  Algorithmia.client(process.env.ALGORITHMIA_KEY)
+    .algo(process.env.ALGORITHM)
     .pipe(req.file.location)
     .then(response => {
       res.send([response.get(), req.file.location])
