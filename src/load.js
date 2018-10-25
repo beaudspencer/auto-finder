@@ -3,6 +3,9 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 
 const styles = {
+  div: {
+    marginTop: '5rem'
+  },
   load: {
     'textAlign': 'center',
     margin: '4rem'
@@ -11,7 +14,7 @@ const styles = {
 
 export default function Load(props) {
   return (
-    <div>
+    <div style={styles.div}>
       <Typography
         variant="h2"
         align="center"

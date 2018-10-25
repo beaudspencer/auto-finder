@@ -5,8 +5,11 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 
 const styles = {
+  container: {
+    marginTop: '5rem'
+  },
   card: {
-    width: '50%',
+    width: '28rem',
     margin: '60px auto'
   },
   content: {
@@ -51,15 +54,9 @@ export default class Uploader extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div style={styles.container}>
         <Typography
-          variant="h1"
-          align="center"
-          gutterBottom
-        >
-            Auto-Finder
-        </Typography>
-        <Typography
+          color="textPrimary"
           variant="h4"
           align="center"
           gutterBottom
@@ -73,16 +70,15 @@ export default class Uploader extends React.Component {
                 ref={this.video}
                 id="player"
                 autoPlay
-                width="384"
-                height="384"
+                width="100%"
               ></video>
             </div>
             <div style={styles.canvas}>
               <canvas
                 ref={this.canvas}
                 id="canvas"
-                width="256"
-                height="256"
+                width="1080"
+                height="1080"
               ></canvas>
             </div>
             <div style={styles.content}>

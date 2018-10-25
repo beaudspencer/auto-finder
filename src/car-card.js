@@ -10,7 +10,7 @@ const styles = {
     width: 'fit-content'
   },
   card: {
-    maxWidth: 435
+    maxWidth: '300px'
   },
   media: {
     objectFit: 'cover'
