@@ -5,6 +5,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk')
 const Algorithmia = require('algorithmia')
+const uuidv4 = require('uuid/v4')
 
 const albumBucketName = process.env.BUCKET
 const bucketRegion = process.env.REGION
@@ -30,7 +31,7 @@ const upload = multer({
       cb(null, {fieldName: file.fieldname})
     },
     key: function (req, file, cb) {
-      cb(null, Date.now().toString())
+      cb(null, uuidv4())
     }
   })
 })
