@@ -10,7 +10,7 @@ const styles = {
     width: 'fit-content'
   },
   card: {
-    maxWidth: '300px'
+    maxWidth: '435px'
   },
   media: {
     objectFit: 'cover'
@@ -30,17 +30,19 @@ export default function CarCard(props) {
         <CardContent>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h4"
           >
             {props.car.model}
           </Typography>
           <Typography
+            color="textSecondary"
             variant="h6"
             gutterBottom
           >
             {'Make: ' + props.car.make}
           </Typography>
           <Typography
+            color="textSecondary"
             variant="h6"
           >
             {'Year: ' + props.car.model_year}

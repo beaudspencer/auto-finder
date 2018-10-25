@@ -1,16 +1,14 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core'
 
 const styles = {
   container: {
     marginTop: '5rem'
-  },
-  card: {
-    width: '28rem',
-    margin: '60px auto'
   },
   content: {
     width: 'fit-content',
@@ -20,6 +18,14 @@ const styles = {
     display: 'none'
   }
 }
+
+const CaptureCard = withStyles({
+  root: {
+    width: '66%',
+    maxWidth: '28rem',
+    margin: '60px auto'
+  }
+})(Card)
 
 export default class Uploader extends React.Component {
   constructor(props) {
@@ -61,10 +67,10 @@ export default class Uploader extends React.Component {
           align="center"
           gutterBottom
         >
-            Upload a Photo of a car to get Started
+            Upload a photo of a car to get started
         </Typography>
-        <Card style={styles.card}>
-          <CardContent style={styles.content}>
+        <CaptureCard>
+          <CardContent>
             <div style={styles.content}>
               <video
                 ref={this.video}
@@ -77,10 +83,12 @@ export default class Uploader extends React.Component {
               <canvas
                 ref={this.canvas}
                 id="canvas"
-                width="1080"
-                height="1080"
+                width="4000"
+                height="3000"
               ></canvas>
             </div>
+          </CardContent>
+          <CardActions>
             <div style={styles.content}>
               <Button
                 onClick={this.handleCapture}
@@ -90,8 +98,8 @@ export default class Uploader extends React.Component {
                 capture!
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </CardActions>
+        </CaptureCard>
       </div>
     )
   }

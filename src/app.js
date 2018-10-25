@@ -21,12 +21,6 @@ const theme = createMuiTheme({
   }
 })
 
-const styles = {
-  text: {
-    color: '#ffffff'
-  }
-}
-
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -71,12 +65,12 @@ export default class App extends React.Component {
           <React.Fragment>
             <AppBar
               color="primary"
-              position="relative"
+              position="sticky"
             >
               <ToolBar>
                 <Typography
-                  variant="h6"
-                  style={styles.text}
+                  variant="h4"
+                  color="inherit"
                 >
                   Auto-Finder
                 </Typography>
