@@ -10,6 +10,10 @@ const styles = {
   container: {
     marginTop: '5rem'
   },
+  button: {
+    margin: '0 auto',
+    marginBottom: '1rem'
+  },
   content: {
     width: 'fit-content',
     margin: '0 auto'
@@ -89,7 +93,7 @@ export default class Uploader extends React.Component {
             </div>
           </CardContent>
           <CardActions>
-            <div style={styles.content}>
+            <div style={styles.button}>
               <Button
                 onClick={this.handleCapture}
                 variant="contained"
