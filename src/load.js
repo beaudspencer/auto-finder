@@ -28,7 +28,7 @@ export default function Load(props) {
         variant="h4"
         align="center"
       >
-        fetching your results now!
+        Fetching your results now!
       </Typography>
     </div>
   )
