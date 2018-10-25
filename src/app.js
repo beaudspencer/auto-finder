@@ -10,8 +10,7 @@ import orange from '@material-ui/core/colors/orange'
 import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
-
-const craigslist = require('node-craigslist')
+import ListingList from './listing-list'
 
 const theme = createMuiTheme({
   palette: {
@@ -28,25 +27,24 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       page: 'uploader',
-      car: null
+      car: null,
+      listings: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
+    this.pullListings = this.pullListings.bind(this)
   }
   pullListings(car) {
-    const client = new craigslist.Client({
-      city: 'Tustin'
+    const searchTerm = car.make + ' ' + car.model
+    fetch(`/listings?search=${searchTerm}`, {
+      method: 'GET'
     })
-    const options = {
-      category: 'cta'
-    }
-    const searchTerm = `${car.make} ${car.model}`
-    client.search(options, searchTerm)
+      .then(res => res.json())
       .then(listings => {
-        listings.forEach(listing => console.log(listing))
-      })
-      .catch(err => {
-        console.error(err)
+        this.setState({
+          listings: listings,
+          page: 'listings'
+        })
       })
   }
   handleSubmit(requestData) {
@@ -73,7 +71,13 @@ export default class App extends React.Component {
       return <Load/>
     }
     else if (this.state.page === 'car') {
-      return <CarCard car={this.state.car}/>
+      return <CarCard
+        car={this.state.car}
+        search={this.pullListings}
+      />
+    }
+    else if (this.state.page === 'listings') {
+      return <ListingList listings={this.state.listings}/>
     }
   }
   render() {
