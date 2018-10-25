@@ -11,6 +11,8 @@ import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
 
+const craigslist = require('node-craigslist')
+
 const theme = createMuiTheme({
   palette: {
     primary: blue,
@@ -30,6 +32,22 @@ export default class App extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
+  }
+  pullListings(car) {
+    const client = new craigslist.Client({
+      city: 'Tustin'
+    })
+    const options = {
+      category: 'cta'
+    }
+    const searchTerm = `${car.make} ${car.model}`
+    client.search(options, searchTerm)
+      .then(listings => {
+        listings.forEach(listing => console.log(listing))
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
   handleSubmit(requestData) {
     this.setState({page: 'load'})
