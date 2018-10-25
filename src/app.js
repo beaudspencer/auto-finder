@@ -45,13 +45,9 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        const car = {
-          info: data[0][0],
-          link: data[1]
-        }
         this.setState({
           page: 'car',
-          car: car
+          car: data
         })
       })
   }

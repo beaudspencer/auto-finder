@@ -45,7 +45,9 @@ app.post('/', upload.single('image'), (req, res, next) => {
     .algo(process.env.ALGORITHM)
     .pipe(req.file.location)
     .then(response => {
-      res.send([response.get(), req.file.location])
+      const firstResponse = response.get()[0]
+      const car = Object.assign({}, firstResponse, {imageURL: req.file.location})
+      res.json(car)
     })
 })
 

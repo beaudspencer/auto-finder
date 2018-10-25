@@ -25,25 +25,25 @@ export default function CarCard(props) {
           style={styles.media}
           component="img"
           alt="Car"
-          image={props.car.link}
+          image={props.car.imageURL}
         />
         <CardContent>
           <Typography
             gutterBottom
             variant="h5"
           >
-            {props.car.info.model}
+            {props.car.model}
           </Typography>
           <Typography
             variant="h6"
             gutterBottom
           >
-            {'Make: ' + props.car.info.make}
+            {'Make: ' + props.car.make}
           </Typography>
           <Typography
             variant="h6"
           >
-            {'Year: ' + props.car.info.model_year}
+            {'Year: ' + props.car.model_year}
           </Typography>
         </CardContent>
       </Card>
