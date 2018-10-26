@@ -13,6 +13,8 @@ const styles = {
     width: 'fit-content'
   },
   card: {
+    margin: '0 auto',
+    width: '92%',
     maxWidth: '435px'
   },
   media: {
@@ -69,7 +71,7 @@ export default class CarCard extends React.Component {
             <Button onClick={this.handleSearch}>
               {this.state.loading ? 'searching...' : 'Find Listings'}
             </Button>
-            {this.state.loading && <CircularProgress color="secondary"/>}
+            {this.state.loading && <CircularProgress color="secondary" size={30}/>}
           </CardActions>
         </Card>
       </div>
