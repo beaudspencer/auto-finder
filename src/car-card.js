@@ -5,6 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = {
   div: {
@@ -22,10 +23,16 @@ const styles = {
 export default class CarCard extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      loading: false
+    }
     this.handleSearch = this.handleSearch.bind(this)
   }
   handleSearch() {
     this.props.search(this.props.car)
+    this.setState({
+      loading: true
+    })
   }
   render() {
     return (
@@ -60,8 +67,9 @@ export default class CarCard extends React.Component {
           </CardContent>
           <CardActions>
             <Button onClick={this.handleSearch}>
-              Find Listings
+              {this.state.loading ? 'searching...' : 'Find Listings'}
             </Button>
+            {this.state.loading && <CircularProgress color="secondary"/>}
           </CardActions>
         </Card>
       </div>
