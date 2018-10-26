@@ -6,6 +6,7 @@ const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk')
 const Algorithmia = require('algorithmia')
 const uuidv4 = require('uuid/v4')
+const craigslist = require('node-craigslist')
 
 const albumBucketName = process.env.BUCKET
 const bucketRegion = process.env.REGION
@@ -40,6 +41,24 @@ const app = express()
 
 app.use(express.static('public'))
 
+app.get('/listings', (req, res) => {
+  const client = new craigslist.Client({
+    city: 'orangecounty'
+  })
+  const options = {
+    category: 'cta'
+  }
+  const {search} = req.query
+  client.search(options, search)
+    .then(listings => {
+      res.json(listings)
+    })
+    .catch(err => {
+      res.sendStatus(500).jsonp({error: err})
+      console.error(err)
+    })
+})
+
 app.post('/', upload.single('image'), (req, res, next) => {
   Algorithmia.client(process.env.ALGORITHMIA_KEY)
     .algo(process.env.ALGORITHM)
@@ -48,6 +67,10 @@ app.post('/', upload.single('image'), (req, res, next) => {
       const firstResponse = response.get()[0]
       const car = Object.assign({}, firstResponse, {imageURL: req.file.location})
       res.json(car)
+    })
+    .catch(err => {
+      res.sendStatus(500).jsonp({error: err})
+      console.error(err)
     })
 })
 
