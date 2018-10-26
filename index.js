@@ -54,6 +54,7 @@ app.get('/listings', (req, res) => {
       res.json(listings)
     })
     .catch(err => {
+      res.sendStatus(500).jsonp({error: err})
       console.error(err)
     })
 })
@@ -66,6 +67,10 @@ app.post('/', upload.single('image'), (req, res, next) => {
       const firstResponse = response.get()[0]
       const car = Object.assign({}, firstResponse, {imageURL: req.file.location})
       res.json(car)
+    })
+    .catch(err => {
+      res.sendStatus(500).jsonp({error: err})
+      console.error(err)
     })
 })
 
