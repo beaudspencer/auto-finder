@@ -40,7 +40,13 @@ export default function Listing(props) {
             target="_blank"
             rel ="noopener noreferrer"
           >
-            Original Listing
+            <Typography
+              variant="subtitle2"
+              component="p"
+              color="primary"
+            >
+              Original Listing
+            </Typography>
           </a>
         </Typography>
       </CardContent>
