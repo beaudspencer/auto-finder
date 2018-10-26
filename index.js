@@ -46,8 +46,7 @@ app.get('/listings', (req, res) => {
     city: 'orangecounty'
   })
   const options = {
-    category: 'cta',
-    offset: 20
+    category: 'cta'
   }
   const {search} = req.query
   client.search(options, search)
