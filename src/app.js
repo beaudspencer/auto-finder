@@ -26,7 +26,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      page: 0,
       view: 'car',
       car: {
         body_style: 'Sedan',
@@ -51,7 +50,7 @@ export default class App extends React.Component {
       .then(listings => {
         this.setState({
           listings: this.paginate(listings),
-          page: 'listings'
+          view: 'listings'
         })
       })
   }
@@ -72,7 +71,7 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.setState({
-          page: 'car',
+          view: 'car',
           car: data
         })
       })
@@ -93,7 +92,7 @@ export default class App extends React.Component {
       />
     }
     else if (this.state.view === 'listings') {
-      return <ListingList listings={this.state.listings}/>
+      return <ListingList car={this.state.car} listings={this.state.listings}/>
     }
   }
   render() {
