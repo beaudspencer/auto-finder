@@ -1,14 +1,49 @@
 import React from 'react'
-import {Card, CardContent, Typography} from '@material-ui/core'
+import {Card, CardContent, Typography, withStyles} from '@material-ui/core'
+
+const FullCard = withStyles({
+  root: {
+    width: '100%'
+  }
+})(Card)
+
+const MoneyText = withStyles({
+  root: {
+    color: 'green'
+  }
+})(Typography)
 
 export default function Listing(props) {
   return (
-    <Card>
+    <FullCard>
       <CardContent>
-        <Typography>{props.listing.title}</Typography>
-        <Typography>{props.listing.price}</Typography>
-        <Typography>{props.listing.url}</Typography>
+        <Typography
+          variant="title"
+          component="h2"
+          gutterBottom
+        >
+          {props.listing.title}
+        </Typography>
+        <MoneyText
+          variant="subtitle1"
+          component="h4"
+          gutterBottom
+        >
+          {props.listing.price ? props.listing.price : 'No Price Listed!'}
+        </MoneyText>
+        <Typography
+          variant="body1"
+          component="h6"
+        >
+          <a
+            href={props.listing.url}
+            target="_blank"
+            rel ="noopener noreferrer"
+          >
+            Original Listing
+          </a>
+        </Typography>
       </CardContent>
-    </Card>
+    </FullCard>
   )
 }
