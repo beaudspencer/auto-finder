@@ -75,6 +75,15 @@ export default class ListingList extends React.Component {
     }
   }
   render() {
+    if (this.props.listings.length < 1) {
+      return (<ListingsTitle
+        variant="title"
+        component="h2"
+        color="inherit"
+      >
+        {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
+      </ListingsTitle>)
+    }
     return (
       <React.Fragment>
         <ListingsTitle
