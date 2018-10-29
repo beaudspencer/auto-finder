@@ -26,20 +26,23 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      view: 'car',
-      car: {
-        body_style: 'Sedan',
-        confidence: '0.68',
-        imageURL: 'https://auto-finder.s3.us-west-1.amazonaws.com/9a6cd249-20ce-4f30-9906-01db4990739a',
-        make: 'Mercedes-Benz',
-        model: 'E-Class',
-        model_year: '1996'
-      },
+      view: 'uploader',
+      car: null,
       listings: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
     this.pullListings = this.pullListings.bind(this)
+    this.pullDetails = this.pullDetails.bind(this)
+  }
+  pullDetails(url) {
+    fetch(`/details?url=${url}`, {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(details => {
+        console.log(details)
+      })
   }
   pullListings(car) {
     const searchTerm = car.make + ' ' + car.model
@@ -63,7 +66,7 @@ export default class App extends React.Component {
     return paginatedListings
   }
   handleSubmit(requestData) {
-    this.setState({page: 'load'})
+    this.setState({view: 'load'})
     fetch('/', {
       method: 'POST',
       body: requestData
@@ -92,7 +95,11 @@ export default class App extends React.Component {
       />
     }
     else if (this.state.view === 'listings') {
-      return <ListingList car={this.state.car} listings={this.state.listings}/>
+      return <ListingList
+        car={this.state.car}
+        listings={this.state.listings}
+        pullDetails={this.pullDetails}
+      />
     }
   }
   render() {
