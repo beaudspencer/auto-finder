@@ -91,7 +91,10 @@ export default class ListingList extends React.Component {
             return (
               <div key={listing.pid} style={styles.listItem}>
                 <ListItem>
-                  <Listing listing={listing}/>
+                  <Listing
+                    listing={listing}
+                    pullDetails={this.props.pullDetails}
+                  />
                 </ListItem>
               </div>
             )
