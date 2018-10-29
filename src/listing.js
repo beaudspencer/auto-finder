@@ -13,13 +13,21 @@ const MoneyText = withStyles({
   }
 })(Typography)
 
+const DetailButton = withStyles({
+  root: {
+    position: 'absolute',
+    right: '2.5rem',
+    bottom: '15%'
+  }
+})(Button)
+
 export default class Listing extends React.Component {
   constructor(props) {
     super(props)
     this.pullDetails = this.pullDetails.bind(this)
   }
   pullDetails() {
-    this.props.pullDetails(this.props.listing.url)
+    this.props.pullDetails(this.props.listing.url, this.props.listing.price)
   }
   render() {
     return (
@@ -59,11 +67,11 @@ export default class Listing extends React.Component {
               </Typography>
             </a>
           </Typography>
-          <Button
+          <DetailButton
             onClick={this.pullDetails}
           >
             View Details
-          </Button>
+          </DetailButton>
         </CardContent>
       </FullCard>
     )
