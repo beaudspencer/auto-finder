@@ -44,12 +44,13 @@ export default class App extends React.Component {
     this.pullListings = this.pullListings.bind(this)
     this.pullDetails = this.pullDetails.bind(this)
   }
-  pullDetails(url) {
+  pullDetails(url, price) {
     fetch(`/details?url=${url}`, {
       method: 'GET'
     })
       .then(res => res.json())
       .then(details => {
+        Object.assign(details, {price: price})
         this.setState({
           view: 'listing',
           listing: details

@@ -1,6 +1,18 @@
 import React from 'react'
-import {Card, CardHeader, CardActions, Button, CardContent, CardMedia, Typography, withStyles} from '@material-ui/core'
-import {ArrowRight, ArrowLeft} from '@material-ui/icons'
+import {
+  Card,
+  CardHeader,
+  CardActions,
+  Button,
+  CardContent,
+  CardMedia,
+  Typography,
+  withStyles,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
+} from '@material-ui/core'
+import {ArrowRight, ArrowLeft, ExpandMore} from '@material-ui/icons'
 
 const DetailsCard = withStyles({
   root: {
@@ -26,6 +38,15 @@ const CardImageSkinny = withStyles({
   }
 })(CardMedia)
 
+const ImageTracker = withStyles({
+  root: {
+    position: 'absolute',
+    marginTop: '1rem',
+    left: '50%',
+    transform: 'translateX(-50%)'
+  }
+})(Typography)
+
 const CardButtons = withStyles({
   root: {
     width: '100%',
@@ -41,9 +62,23 @@ const Header = withStyles({
 
 const Next = withStyles({
   root: {
-    float: 'right'
+    float: 'right',
+    marginRight: '1rem'
   }
 })(Button)
+
+const Prev = withStyles({
+  root: {
+    float: 'left',
+    marginLeft: '1rem'
+  }
+})(Button)
+
+const SpaceExpansion = withStyles({
+  root: {
+    margin: '1rem 0'
+  }
+})(ExpansionPanel)
 
 export default class ListingDetails extends React.Component {
   constructor(props) {
@@ -97,7 +132,7 @@ export default class ListingDetails extends React.Component {
       <React.Fragment>
         <DetailsCard>
           <Header
-            title={details.title}
+            title={details.title + '-' + details.price}
             subheader={'Posted: ' + details.postedAt}
           />
           {this.state.view === 'skinny' &&
@@ -115,14 +150,19 @@ export default class ListingDetails extends React.Component {
             />
           }
           <CardButtons>
-            <Button
+            <Prev
               variant="contained"
               color="primary"
               onClick={this.handleClick}
               id="back"
             >
               <ArrowLeft/>
-            </Button>
+            </Prev>
+            <ImageTracker
+              component="div"
+            >
+              {(currentImg + 1) + ' of ' + details.images.length}
+            </ImageTracker>
             <Next
               variant="contained"
               color="primary"
@@ -134,16 +174,48 @@ export default class ListingDetails extends React.Component {
           </CardButtons>
           <CardContent>
             <Typography
+              variant="body1"
               gutterBottom
             >{details.description}</Typography>
-            <Typography gutterBottom>Attributes: </Typography>
-            {Object.entries(attributes).map(attribute => {
-              return (
-                <Typography key={attribute[0]} gutterBottom>
-                  {attribute[0] + ': ' + attribute[1]}
+            <SpaceExpansion>
+              <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+                <Typography
+                  gutterBottom
+                  variant="body1"
+                >
+                  Attributes:
                 </Typography>
-              )
-            })}
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography
+                  variant="body2"
+                >
+                  {Object.entries(attributes).map(attribute => {
+                    return (
+                      <React.Fragment key={attribute[0]}>{attribute[0] + ': ' + attribute[1]}<br/></React.Fragment>
+                    )
+                  })}
+                </Typography>
+              </ExpansionPanelDetails>
+            </SpaceExpansion>
+            <a
+              href={details.url}
+              target="_blank"
+              rel ="noopener noreferrer"
+            >
+              <Typography
+                gutterBottom
+                color="primary"
+              >
+              Original Listing
+              </Typography>
+            </a>
+            <Typography
+              gutterBottom
+              color="textSecondary"
+            >
+              {'Last Updated: ' + details.updatedAt}
+            </Typography>
           </CardContent>
         </DetailsCard>
       </React.Fragment>
