@@ -11,6 +11,7 @@ import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
 import ListingList from './listing-list'
+import ListingDetails from './listing-details'
 
 const theme = createMuiTheme({
   palette: {
@@ -26,9 +27,17 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      view: 'uploader',
-      car: null,
-      listings: []
+      view: 'car',
+      car: {
+        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg',
+        body_style: 'SUV',
+        confidence: '1.00',
+        make: 'Jeep',
+        model: 'Wrangler',
+        model_year: '2018'
+      },
+      listings: null,
+      listing: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
@@ -41,7 +50,10 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(details => {
-        console.log(details)
+        this.setState({
+          view: 'listing',
+          listing: details
+        })
       })
   }
   pullListings(car) {
@@ -82,7 +94,9 @@ export default class App extends React.Component {
   renderPage() {
     if (this.state.view === 'uploader') {
       return (
-        <Uploader handleSubmit={this.handleSubmit}/>
+        <Uploader
+          handleSubmit={this.handleSubmit}
+        />
       )
     }
     else if (this.state.view === 'load') {
@@ -92,6 +106,11 @@ export default class App extends React.Component {
       return <CarCard
         car={this.state.car}
         search={this.pullListings}
+      />
+    }
+    else if (this.state.view === 'listing') {
+      return <ListingDetails
+        details={this.state.listing}
       />
     }
     else if (this.state.view === 'listings') {
