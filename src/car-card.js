@@ -4,6 +4,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
+import {withStyles} from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -21,6 +22,13 @@ const styles = {
     objectFit: 'cover'
   }
 }
+
+const SearchButton = withStyles({
+  root: {
+    position: 'relative',
+    right: '0.5rem'
+  }
+})(Button)
 
 export default class CarCard extends React.Component {
   constructor(props) {
@@ -49,28 +57,31 @@ export default class CarCard extends React.Component {
           <CardContent>
             <Typography
               gutterBottom
-              variant="h4"
+              variant="title"
+              component="h4"
             >
               {this.props.car.model}
             </Typography>
             <Typography
               color="textSecondary"
-              variant="h6"
+              variant="subheading"
+              component="h6"
               gutterBottom
             >
               {'Make: ' + this.props.car.make}
             </Typography>
             <Typography
               color="textSecondary"
-              variant="h6"
+              variant="subheading"
+              component="h6"
             >
               {'Year: ' + this.props.car.model_year}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button onClick={this.handleSearch}>
+            <SearchButton onClick={this.handleSearch}>
               {this.state.loading ? 'searching...' : 'Find Listings'}
-            </Button>
+            </SearchButton>
             {this.state.loading && <CircularProgress color="secondary" size={30}/>}
           </CardActions>
         </Card>

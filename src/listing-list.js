@@ -75,6 +75,15 @@ export default class ListingList extends React.Component {
     }
   }
   render() {
+    if (this.props.listings.length < 1) {
+      return (<ListingsTitle
+        variant="title"
+        component="h2"
+        color="inherit"
+      >
+        {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
+      </ListingsTitle>)
+    }
     return (
       <React.Fragment>
         <ListingsTitle
@@ -91,7 +100,10 @@ export default class ListingList extends React.Component {
             return (
               <div key={listing.pid} style={styles.listItem}>
                 <ListItem>
-                  <Listing listing={listing}/>
+                  <Listing
+                    listing={listing}
+                    pullDetails={this.props.pullDetails}
+                  />
                 </ListItem>
               </div>
             )
@@ -118,8 +130,8 @@ export default class ListingList extends React.Component {
           </NextButton>}
         </div>
         <CurrentPage
-          variant="h6"
-          component="div"
+          variant="body1"
+          component="h6"
           color="inherit"
         >
           {this.state.page + 1}

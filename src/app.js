@@ -11,6 +11,7 @@ import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
 import ListingList from './listing-list'
+import ListingDetails from './listing-details'
 
 const theme = createMuiTheme({
   palette: {
@@ -27,19 +28,27 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       view: 'car',
-      car: {
-        body_style: 'Sedan',
-        confidence: '0.68',
-        imageURL: 'https://auto-finder.s3.us-west-1.amazonaws.com/9a6cd249-20ce-4f30-9906-01db4990739a',
-        make: 'Mercedes-Benz',
-        model: 'E-Class',
-        model_year: '1996'
-      },
-      listings: []
+      car: null,
+      listings: null,
+      listing: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
     this.pullListings = this.pullListings.bind(this)
+    this.pullDetails = this.pullDetails.bind(this)
+  }
+  pullDetails(url, price) {
+    fetch(`/details?url=${url}`, {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(details => {
+        Object.assign(details, {price: price})
+        this.setState({
+          view: 'listing',
+          listing: details
+        })
+      })
   }
   pullListings(car) {
     const searchTerm = car.make + ' ' + car.model
@@ -63,7 +72,7 @@ export default class App extends React.Component {
     return paginatedListings
   }
   handleSubmit(requestData) {
-    this.setState({page: 'load'})
+    this.setState({view: 'load'})
     fetch('/', {
       method: 'POST',
       body: requestData
@@ -79,7 +88,9 @@ export default class App extends React.Component {
   renderPage() {
     if (this.state.view === 'uploader') {
       return (
-        <Uploader handleSubmit={this.handleSubmit}/>
+        <Uploader
+          handleSubmit={this.handleSubmit}
+        />
       )
     }
     else if (this.state.view === 'load') {
@@ -91,8 +102,17 @@ export default class App extends React.Component {
         search={this.pullListings}
       />
     }
+    else if (this.state.view === 'listing') {
+      return <ListingDetails
+        details={this.state.listing}
+      />
+    }
     else if (this.state.view === 'listings') {
-      return <ListingList car={this.state.car} listings={this.state.listings}/>
+      return <ListingList
+        car={this.state.car}
+        listings={this.state.listings}
+        pullDetails={this.pullDetails}
+      />
     }
   }
   render() {
@@ -106,7 +126,8 @@ export default class App extends React.Component {
             >
               <ToolBar>
                 <Typography
-                  variant="h4"
+                  variant="title"
+                  component="h6"
                   color="inherit"
                 >
                   Auto-Finder

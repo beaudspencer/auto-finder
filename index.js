@@ -37,17 +37,18 @@ const upload = multer({
   })
 })
 
+const client = new craigslist.Client({
+  city: 'orangecounty'
+})
+const options = {
+  category: 'cta'
+}
+
 const app = express()
 
 app.use(express.static('public'))
 
 app.get('/listings', (req, res) => {
-  const client = new craigslist.Client({
-    city: 'orangecounty'
-  })
-  const options = {
-    category: 'cta'
-  }
   const {search} = req.query
   client.search(options, search)
     .then(listings => {
@@ -55,6 +56,18 @@ app.get('/listings', (req, res) => {
     })
     .catch(err => {
       res.sendStatus(500).jsonp({error: err})
+      console.error(err)
+    })
+})
+
+app.get('/details', (req, res) => {
+  const {url} = req.query
+  client.details(url)
+    .then(details => {
+      res.json(details)
+    })
+    .catch(err => {
+      res.sendStatus(500)
       console.error(err)
     })
 })
@@ -67,10 +80,6 @@ app.post('/', upload.single('image'), (req, res, next) => {
       const firstResponse = response.get()[0]
       const car = Object.assign({}, firstResponse, {imageURL: req.file.location})
       res.json(car)
-    })
-    .catch(err => {
-      res.sendStatus(500).jsonp({error: err})
-      console.error(err)
     })
 })
 

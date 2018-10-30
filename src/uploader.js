@@ -67,7 +67,8 @@ export default class Uploader extends React.Component {
       <div style={styles.container}>
         <Typography
           color="textPrimary"
-          variant="h4"
+          component="h4"
+          variant="title"
           align="center"
           gutterBottom
         >
