@@ -126,8 +126,8 @@ export default class ListingDetails extends React.Component {
     const {details} = this.props
     const {currentImg} = this.state
     const {attributes} = details
-    const postedTimeStamp = details.postedAt.slice(0, 10)
-    const updatedTimeStamp = details.updatedAt.slice(0, 10)
+    const postedTimeStamp = details.postedAt.slice(0, 10) || 'Unknown'
+    const updatedTimeStamp = details.updatedAt.slice(0, 10) || 'Unknown'
     return (
       <React.Fragment>
         <div style={styles.container}>

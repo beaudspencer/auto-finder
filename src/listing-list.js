@@ -75,7 +75,18 @@ export default class ListingList extends React.Component {
     }
   }
   render() {
-    if (this.props.listings.length < 1) {
+    if (!this.props.listings) {
+      return (
+        <ListingsTitle
+          variant="title"
+          component="h2"
+          color="inherit"
+        >
+          No listings have been searched for this session.
+        </ListingsTitle>
+      )
+    }
+    else if (this.props.listings.length < 1) {
       return (<ListingsTitle
         variant="title"
         component="h2"

@@ -46,46 +46,56 @@ export default class CarCard extends React.Component {
   }
   render() {
     return (
-      <div style={styles.div}>
-        <Card style={styles.card}>
-          <CardMedia
-            style={styles.media}
-            component="img"
-            alt="Car"
-            image={this.props.car.imageURL}
-          />
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant="title"
-              component="h4"
-            >
-              {this.props.car.model}
-            </Typography>
-            <Typography
-              color="textSecondary"
-              variant="subheading"
-              component="h6"
-              gutterBottom
-            >
-              {'Make: ' + this.props.car.make}
-            </Typography>
-            <Typography
-              color="textSecondary"
-              variant="subheading"
-              component="h6"
-            >
-              {'Year: ' + this.props.car.model_year}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <SearchButton onClick={this.handleSearch}>
-              {this.state.loading ? 'searching...' : 'Find Listings'}
-            </SearchButton>
-            {this.state.loading && <CircularProgress color="secondary" size={30}/>}
-          </CardActions>
-        </Card>
-      </div>
+      <React.Fragment>
+        {this.props.car && <div style={styles.div}>
+          <Card style={styles.card}>
+            <CardMedia
+              style={styles.media}
+              component="img"
+              alt="Car"
+              image={this.props.car.imageURL}
+            />
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant="title"
+                component="h4"
+              >
+                {this.props.car.model}
+              </Typography>
+              <Typography
+                color="textSecondary"
+                variant="subheading"
+                component="h6"
+                gutterBottom
+              >
+                {'Make: ' + this.props.car.make}
+              </Typography>
+              <Typography
+                color="textSecondary"
+                variant="subheading"
+                component="h6"
+              >
+                {'Year: ' + this.props.car.model_year}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <SearchButton onClick={this.handleSearch}>
+                {this.state.loading ? 'searching...' : 'Find Listings'}
+              </SearchButton>
+              {this.state.loading && <CircularProgress color="secondary" size={30}/>}
+            </CardActions>
+          </Card>
+        </div>}
+        {!this.props.car && <div>
+          <Typography
+            variant="title"
+            component="h2"
+          >
+            You have yet find a car this session
+          </Typography>
+        </div>}
+      </React.Fragment>
     )
   }
 }
