@@ -4,7 +4,7 @@ const hash = {
   parse(string) {
     const [path, query] = string.split('?')
     return {
-      path: path.slice(1) || 'list',
+      path: path.slice(1) || 'uploader',
       params: queryString.parse(query)
     }
   },

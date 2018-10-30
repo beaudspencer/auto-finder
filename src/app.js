@@ -12,6 +12,7 @@ import Load from './load'
 import CarCard from './car-card'
 import ListingList from './listing-list'
 import ListingDetails from './listing-details'
+import hash from './hash'
 
 const theme = createMuiTheme({
   palette: {
@@ -27,8 +28,18 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      view: 'car',
-      car: null,
+      view: {
+        path: hash.parse(location.hash).path,
+        params: hash.parse(location.hash).params
+      },
+      car: {
+        body_style: 'SUV',
+        confidence: '1.00',
+        make: 'Jeep',
+        model: 'Wrangler',
+        model_year: '2018',
+        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
+      },
       listings: null,
       listing: null
     }
@@ -37,6 +48,13 @@ export default class App extends React.Component {
     this.pullListings = this.pullListings.bind(this)
     this.pullDetails = this.pullDetails.bind(this)
   }
+  componentDidMount() {
+    window.addEventListener('hashchange', event => {
+      this.setState({
+        view: hash.parse(location.hash)
+      })
+    })
+  }
   pullDetails(url, price) {
     fetch(`/details?url=${url}`, {
       method: 'GET'
@@ -44,8 +62,8 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(details => {
         Object.assign(details, {price: price})
+        location.hash = 'listing'
         this.setState({
-          view: 'listing',
           listing: details
         })
       })
@@ -57,9 +75,9 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(listings => {
+        location.hash = 'listings'
         this.setState({
-          listings: this.paginate(listings),
-          view: 'listings'
+          listings: this.paginate(listings)
         })
       })
   }
@@ -72,42 +90,42 @@ export default class App extends React.Component {
     return paginatedListings
   }
   handleSubmit(requestData) {
-    this.setState({view: 'load'})
+    location.hash = 'load'
     fetch('/', {
       method: 'POST',
       body: requestData
     })
       .then(res => res.json())
       .then(data => {
+        location.hash = 'car'
         this.setState({
-          view: 'car',
           car: data
         })
       })
   }
   renderPage() {
-    if (this.state.view === 'uploader') {
+    if (this.state.view.path === 'uploader') {
       return (
         <Uploader
           handleSubmit={this.handleSubmit}
         />
       )
     }
-    else if (this.state.view === 'load') {
+    else if (this.state.view.path === 'load') {
       return <Load/>
     }
-    else if (this.state.view === 'car') {
+    else if (this.state.view.path === 'car') {
       return <CarCard
         car={this.state.car}
         search={this.pullListings}
       />
     }
-    else if (this.state.view === 'listing') {
+    else if (this.state.view.path === 'listing') {
       return <ListingDetails
         details={this.state.listing}
       />
     }
-    else if (this.state.view === 'listings') {
+    else if (this.state.view.path === 'listings') {
       return <ListingList
         car={this.state.car}
         listings={this.state.listings}
