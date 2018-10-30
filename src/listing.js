@@ -1,5 +1,6 @@
 import React from 'react'
 import {Card, CardContent, Typography, withStyles, Button} from '@material-ui/core'
+import hash from './hash'
 
 const FullCard = withStyles({
   root: {
@@ -27,7 +28,13 @@ export default class Listing extends React.Component {
     this.pullDetails = this.pullDetails.bind(this)
   }
   pullDetails() {
-    this.props.pullDetails(this.props.listing.url, this.props.listing.price)
+    location.hash = hash.stringify({
+      path: 'listing',
+      params: {
+        url: this.props.listing.url
+      }
+    })
+    this.props.pullDetails(this.props.listing.price)
   }
   render() {
     return (
