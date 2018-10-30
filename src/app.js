@@ -133,7 +133,8 @@ export default class App extends React.Component {
             >
               <ToolBar>
                 <Typography
-                  variant="h4"
+                  variant="title"
+                  component="h6"
                   color="inherit"
                 >
                   Auto-Finder

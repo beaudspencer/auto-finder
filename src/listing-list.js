@@ -130,8 +130,8 @@ export default class ListingList extends React.Component {
           </NextButton>}
         </div>
         <CurrentPage
-          variant="h6"
-          component="div"
+          variant="body1"
+          component="h6"
           color="inherit"
         >
           {this.state.page + 1}

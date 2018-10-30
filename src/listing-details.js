@@ -1,10 +1,8 @@
 import React from 'react'
 import {
   Card,
-  CardHeader,
   CardActions,
   Button,
-  CardContent,
   CardMedia,
   Typography,
   withStyles,
@@ -14,27 +12,33 @@ import {
 } from '@material-ui/core'
 import {ArrowRight, ArrowLeft, ExpandMore} from '@material-ui/icons'
 
-const DetailsCard = withStyles({
-  root: {
+const styles = {
+  container: {
     width: '92%',
     maxWidth: '40rem',
-    margin: '2rem auto'
+    margin: '1rem auto'
+  }
+}
+
+const DetailsCard = withStyles({
+  root: {
+    margin: '1rem 0'
   }
 })(Card)
 
-const CardImageWide = withStyles({
+const ImageWide = withStyles({
   media: {
     height: '20rem',
     width: 'auto',
-    margin: '0 auto'
+    margin: '1rem auto'
   }
 })(CardMedia)
 
-const CardImageSkinny = withStyles({
+const ImageSkinny = withStyles({
   media: {
     height: '30vh',
     width: 'auto',
-    margin: '0 auto'
+    margin: '1rem auto'
   }
 })(CardMedia)
 
@@ -53,12 +57,6 @@ const CardButtons = withStyles({
     display: 'inline-block'
   }
 })(CardActions)
-
-const Header = withStyles({
-  root: {
-    textAlign: 'center'
-  }
-})(CardHeader)
 
 const Next = withStyles({
   root: {
@@ -128,96 +126,125 @@ export default class ListingDetails extends React.Component {
     const {details} = this.props
     const {currentImg} = this.state
     const {attributes} = details
+    const postedTimeStamp = details.postedAt.slice(0, 10)
+    const updatedTimeStamp = details.updatedAt.slice(0, 10)
     return (
       <React.Fragment>
-        <DetailsCard>
-          <Header
-            title={details.title + '-' + details.price}
-            subheader={'Posted: ' + details.postedAt}
-          />
-          {this.state.view === 'skinny' &&
-            <CardImageSkinny
-              component="img"
-              title="Current-Car-Image"
-              image={details.images[currentImg]}
-            />
-          }
-          {this.state.view === 'wide' &&
-            <CardImageWide
-              component="img"
-              title="Current-Car-Image"
-              image={details.images[currentImg]}
-            />
-          }
-          <CardButtons>
-            <Prev
-              variant="contained"
-              color="primary"
-              onClick={this.handleClick}
-              id="back"
-            >
-              <ArrowLeft/>
-            </Prev>
-            <ImageTracker
-              component="div"
-            >
-              {(currentImg + 1) + ' of ' + details.images.length}
-            </ImageTracker>
-            <Next
-              variant="contained"
-              color="primary"
-              onClick={this.handleClick}
-              id="forth"
-            >
-              <ArrowRight/>
-            </Next>
-          </CardButtons>
-          <CardContent>
-            <Typography
-              variant="body1"
-              gutterBottom
-            >{details.description}</Typography>
-            <SpaceExpansion>
-              <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
-                <Typography
-                  gutterBottom
-                  variant="body1"
-                >
-                  Attributes:
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography
-                  variant="body2"
-                >
-                  {Object.entries(attributes).map(attribute => {
-                    return (
-                      <React.Fragment key={attribute[0]}>{attribute[0] + ': ' + attribute[1]}<br/></React.Fragment>
-                    )
-                  })}
-                </Typography>
-              </ExpansionPanelDetails>
-            </SpaceExpansion>
-            <a
-              href={details.url}
-              target="_blank"
-              rel ="noopener noreferrer"
-            >
+        <div style={styles.container}>
+          <Typography
+            variant="title"
+            component="h2"
+            color="inherit"
+          >
+            {details.title + '-' + details.price}
+          </Typography>
+          <Typography
+            variant="subheading"
+            color="textSecondary"
+            component="h4"
+          >
+            {'Posted: ' + postedTimeStamp}
+          </Typography>
+          <DetailsCard>
+            {this.state.view === 'skinny' &&
+              <ImageSkinny
+                component="img"
+                title="Current-Car-Image"
+                image={details.images[currentImg]}
+              />
+            }
+            {this.state.view === 'wide' &&
+              <ImageWide
+                component="img"
+                title="Current-Car-Image"
+                image={details.images[currentImg]}
+              />
+            }
+            <CardButtons>
+              <Prev
+                variant="contained"
+                color="primary"
+                onClick={this.handleClick}
+                id="back"
+              >
+                <ArrowLeft/>
+              </Prev>
+              <ImageTracker
+                component="div"
+              >
+                {(currentImg + 1) + ' of ' + details.images.length}
+              </ImageTracker>
+              <Next
+                variant="contained"
+                color="primary"
+                onClick={this.handleClick}
+                id="forth"
+              >
+                <ArrowRight/>
+              </Next>
+            </CardButtons>
+          </DetailsCard>
+          <SpaceExpansion defaultExpanded>
+            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+              <Typography
+                variant="body1"
+                gutterBottom
+              >
+              Description:
+              </Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography
+                variant="body1"
+                gutterBottom
+              >
+                {details.description}
+              </Typography>
+            </ExpansionPanelDetails>
+          </SpaceExpansion>
+          <SpaceExpansion>
+            <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
               <Typography
                 gutterBottom
-                color="primary"
+                variant="body1"
               >
-              Original Listing
+                  Attributes:
               </Typography>
-            </a>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography
+                variant="body2"
+              >
+                {Object.entries(attributes).map(attribute => {
+                  return (
+                    <React.Fragment key={attribute[0]}>
+                      {attribute[0] + ': ' + attribute[1]}
+                      <br/>
+                    </React.Fragment>
+                  )
+                })}
+              </Typography>
+            </ExpansionPanelDetails>
+          </SpaceExpansion>
+          <a
+            href={details.url}
+            target="_blank"
+            rel ="noopener noreferrer"
+          >
             <Typography
               gutterBottom
-              color="textSecondary"
+              color="primary"
             >
-              {'Last Updated: ' + details.updatedAt}
+                Original Listing
             </Typography>
-          </CardContent>
-        </DetailsCard>
+          </a>
+          <Typography
+            gutterBottom
+            color="textSecondary"
+          >
+            {'Last Updated: ' + updatedTimeStamp}
+          </Typography>
+        </div>
       </React.Fragment>
     )
   }
