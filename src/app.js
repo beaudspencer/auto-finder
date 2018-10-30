@@ -1,5 +1,6 @@
 import React from 'react'
 import AppBar from '@material-ui/core/AppBar'
+import Button from '@material-ui/core/Button'
 import ToolBar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Cssbaseline from '@material-ui/core/CssBaseline'
@@ -11,7 +12,7 @@ import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
 import ListingList from './listing-list'
-import ListingDetails from './listing-details'
+import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 
 const theme = createMuiTheme({
@@ -23,6 +24,13 @@ const theme = createMuiTheme({
     default: '#E0E0E0'
   }
 })
+
+const styles = {
+  appButtons: {
+    position: 'absolute',
+    right: '4%'
+  }
+}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -46,7 +54,7 @@ export default class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
     this.pullListings = this.pullListings.bind(this)
-    this.pullDetails = this.pullDetails.bind(this)
+    this.setListing = this.setListing.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
@@ -55,18 +63,10 @@ export default class App extends React.Component {
       })
     })
   }
-  pullDetails(url, price) {
-    fetch(`/details?url=${url}`, {
-      method: 'GET'
+  setListing(listing) {
+    this.setState({
+      listing: listing
     })
-      .then(res => res.json())
-      .then(details => {
-        Object.assign(details, {price: price})
-        location.hash = 'listing'
-        this.setState({
-          listing: details
-        })
-      })
   }
   pullListings(car) {
     const searchTerm = car.make + ' ' + car.model
@@ -103,7 +103,7 @@ export default class App extends React.Component {
         })
       })
   }
-  renderPage() {
+  renderPage(price) {
     if (this.state.view.path === 'uploader') {
       return (
         <Uploader
@@ -121,15 +121,16 @@ export default class App extends React.Component {
       />
     }
     else if (this.state.view.path === 'listing') {
-      return <ListingDetails
-        details={this.state.listing}
+      return <ListingDetailsContainer
+        setListing={this.setListing}
+        price={price}
       />
     }
     else if (this.state.view.path === 'listings') {
       return <ListingList
         car={this.state.car}
         listings={this.state.listings}
-        pullDetails={this.pullDetails}
+        pullDetails={this.renderPage}
       />
     }
   }
@@ -150,6 +151,28 @@ export default class App extends React.Component {
                 >
                   Auto-Finder
                 </Typography>
+                <div
+                  style={styles.appButtons}
+                >
+                  <Button
+                    href="#uploader"
+                    color="inherit"
+                  >
+                    Uploader
+                  </Button>
+                  <Button
+                    href="#car"
+                    color="inherit"
+                  >
+                    Car
+                  </Button>
+                  <Button
+                    href="#listings"
+                    color="inherit"
+                  >
+                    Listings
+                  </Button>
+                </div>
               </ToolBar>
             </AppBar>
             {this.renderPage()}
