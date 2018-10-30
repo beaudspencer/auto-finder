@@ -72,6 +72,12 @@ const Prev = withStyles({
   }
 })(Button)
 
+const Return = withStyles({
+  root: {
+    marginBottom: '1rem'
+  }
+})(Button)
+
 const SpaceExpansion = withStyles({
   root: {
     margin: '1rem 0'
@@ -126,11 +132,22 @@ export default class ListingDetails extends React.Component {
     const {details} = this.props
     const {currentImg} = this.state
     const {attributes} = details
-    const postedTimeStamp = details.postedAt.slice(0, 10) || 'Unknown'
-    const updatedTimeStamp = details.updatedAt.slice(0, 10) || 'Unknown'
+    const postedTimeStamp = details.postedAt.slice(0, 10)
+    let updatedTimeStamp = null
+    if (details.updatedAt) {
+      updatedTimeStamp = details.updatedAt.slice(0, 10)
+    }
     return (
       <React.Fragment>
         <div style={styles.container}>
+          <Return
+            href="#listings"
+            variant="contained"
+            color="primary"
+          >
+            <ArrowLeft></ArrowLeft>
+            Return to Listings
+          </Return>
           <Typography
             variant="title"
             component="h2"
@@ -242,7 +259,7 @@ export default class ListingDetails extends React.Component {
             gutterBottom
             color="textSecondary"
           >
-            {'Last Updated: ' + updatedTimeStamp}
+            {'Last Updated: ' + updatedTimeStamp ? updatedTimeStamp : 'Not Updated'}
           </Typography>
         </div>
       </React.Fragment>
