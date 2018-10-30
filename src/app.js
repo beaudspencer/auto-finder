@@ -28,14 +28,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       view: 'car',
-      car: {
-        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg',
-        body_style: 'SUV',
-        confidence: '1.00',
-        make: 'Jeep',
-        model: 'Wrangler',
-        model_year: '2018'
-      },
+      car: null,
       listings: null,
       listing: null
     }
