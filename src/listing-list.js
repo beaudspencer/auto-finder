@@ -112,11 +112,19 @@ export default class ListingList extends React.Component {
         </ListingsTitle>
         <List>
           {this.props.listings[this.state.page].map(listing => {
+            let favorited = false
+            for (let c = 0; c < this.props.faveListings.length; c++) {
+              if (this.props.faveListings[c].pid === listing.pid) {
+                favorited = true
+                break
+              }
+            }
             return (
               <div key={listing.pid} style={styles.listItem}>
                 <ListItem>
                   <Listing
                     listing={listing}
+                    favorited={favorited}
                     favoriteListing={this.favoriteListing}
                   />
                 </ListItem>
