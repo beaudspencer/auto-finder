@@ -4,9 +4,10 @@ import {
   CardContent,
   Typography,
   withStyles,
-  Button
+  IconButton
 } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
+import StarBorderIcon from '@material-ui/icons/StarBorder'
 import hash from './hash'
 
 const FullCard = withStyles({
@@ -24,10 +25,18 @@ const MoneyText = withStyles({
 const DetailButton = withStyles({
   root: {
     position: 'absolute',
-    right: '1rem',
-    bottom: '1.55rem'
+    right: '2rem',
+    bottom: '1.2rem'
   }
-})(Button)
+})(IconButton)
+
+const StarIconButton = withStyles({
+  root: {
+    position: 'absolute',
+    bottom: '1.2rem',
+    right: '4.5rem'
+  }
+})(IconButton)
 
 export default class Listing extends React.Component {
   constructor(props) {
@@ -85,6 +94,9 @@ export default class Listing extends React.Component {
           >
             <InfoIcon />
           </DetailButton>
+          <StarIconButton>
+            <StarBorderIcon />
+          </StarIconButton>
         </CardContent>
       </FullCard>
     )
