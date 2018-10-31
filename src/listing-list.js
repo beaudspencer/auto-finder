@@ -113,7 +113,6 @@ export default class ListingList extends React.Component {
                 <ListItem>
                   <Listing
                     listing={listing}
-                    pullDetails={this.props.pullDetails}
                   />
                 </ListItem>
               </div>

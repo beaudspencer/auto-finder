@@ -19,7 +19,6 @@ export default class ListingDetailsContainer extends React.Component {
     })
       .then(res => res.json())
       .then(details => {
-        Object.assign(details, {price: this.props.price})
         this.props.setListing(details)
         this.setState({
           listing: details,
