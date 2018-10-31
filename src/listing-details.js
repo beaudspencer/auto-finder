@@ -22,9 +22,16 @@ const styles = {
 
 const DetailsCard = withStyles({
   root: {
-    margin: '1rem 0'
+    textAlign: 'center',
+    margin: '1rem auto'
   }
 })(Card)
+
+const NoImagesText = withStyles({
+  root: {
+    margin: '1rem auto'
+  }
+})(Typography)
 
 const ImageWide = withStyles({
   media: {
@@ -69,12 +76,6 @@ const Prev = withStyles({
   root: {
     float: 'left',
     marginLeft: '1rem'
-  }
-})(Button)
-
-const Return = withStyles({
-  root: {
-    marginBottom: '1rem'
   }
 })(Button)
 
@@ -140,20 +141,12 @@ export default class ListingDetails extends React.Component {
     return (
       <React.Fragment>
         <div style={styles.container}>
-          <Return
-            href="#listings"
-            variant="contained"
-            color="primary"
-          >
-            <ArrowLeft></ArrowLeft>
-            Return to Listings
-          </Return>
           <Typography
             variant="title"
             component="h2"
             color="inherit"
           >
-            {details.title + '-' + details.price}
+            {details.title}
           </Typography>
           <Typography
             variant="subheading"
@@ -163,43 +156,60 @@ export default class ListingDetails extends React.Component {
             {'Posted: ' + postedTimeStamp}
           </Typography>
           <DetailsCard>
-            {this.state.view === 'skinny' &&
-              <ImageSkinny
-                component="img"
-                title="Current-Car-Image"
-                image={details.images[currentImg]}
-              />
+            {
+              details.images &&
+            <React.Fragment>
+              {this.state.view === 'skinny' &&
+                <ImageSkinny
+                  component="img"
+                  title="Current-Car-Image"
+                  image={details.images[currentImg]}
+                />
+              }
+              {this.state.view === 'wide' &&
+                <ImageWide
+                  component="img"
+                  title="Current-Car-Image"
+                  image={details.images[currentImg]}
+                />
+              }
+            </React.Fragment>
             }
-            {this.state.view === 'wide' &&
-              <ImageWide
-                component="img"
-                title="Current-Car-Image"
-                image={details.images[currentImg]}
-              />
-            }
-            <CardButtons>
-              <Prev
-                variant="contained"
-                color="primary"
-                onClick={this.handleClick}
-                id="back"
-              >
-                <ArrowLeft/>
-              </Prev>
-              <ImageTracker
+            {
+              !details.images &&
+              <NoImagesText
+                variant="title"
                 component="div"
               >
-                {(currentImg + 1) + ' of ' + details.images.length}
-              </ImageTracker>
-              <Next
-                variant="contained"
-                color="primary"
-                onClick={this.handleClick}
-                id="forth"
-              >
-                <ArrowRight/>
-              </Next>
-            </CardButtons>
+                No Images!
+              </NoImagesText>
+            }
+            {
+              details.images &&
+              <CardButtons>
+                <Prev
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleClick}
+                  id="back"
+                >
+                  <ArrowLeft/>
+                </Prev>
+                <ImageTracker
+                  component="div"
+                >
+                  {(currentImg + 1) + ' of ' + details.images.length}
+                </ImageTracker>
+                <Next
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleClick}
+                  id="forth"
+                >
+                  <ArrowRight/>
+                </Next>
+              </CardButtons>
+            }
           </DetailsCard>
           <SpaceExpansion defaultExpanded>
             <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
