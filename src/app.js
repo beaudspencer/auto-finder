@@ -49,6 +49,7 @@ export default class App extends React.Component {
     this.renderPage = this.renderPage.bind(this)
     this.pullListings = this.pullListings.bind(this)
     this.setListing = this.setListing.bind(this)
+    this.favoriteListing = this.favoriteListing.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
