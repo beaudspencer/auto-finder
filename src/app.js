@@ -5,7 +5,6 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import orange from '@material-ui/core/colors/orange'
 import Uploader from './uploader'
-import Load from './load'
 import CarCard from './car-card'
 import Navi from './navi'
 import ListingList from './listing-list'
@@ -33,14 +32,7 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: {
-        body_style: 'SUV',
-        confidence: '1.00',
-        make: 'Jeep',
-        model: 'Wrangler',
-        model_year: '2018',
-        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
-      },
+      car: null,
       listings: null,
       listing: null,
       listingPrice: null
@@ -84,7 +76,6 @@ export default class App extends React.Component {
     return paginatedListings
   }
   handleSubmit(requestData) {
-    location.hash = 'load'
     fetch('/', {
       method: 'POST',
       body: requestData
@@ -104,9 +95,6 @@ export default class App extends React.Component {
           handleSubmit={this.handleSubmit}
         />
       )
-    }
-    else if (this.state.view.path === 'load') {
-      return <Load/>
     }
     else if (this.state.view.path === 'car') {
       return <CarCard
