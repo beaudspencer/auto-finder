@@ -33,6 +33,7 @@ export default class App extends React.Component {
         params: hash.parse(location.hash).params
       },
       car: null,
+      faveListings: [],
       listings: null,
       listing: null,
       listingPrice: null
