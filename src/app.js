@@ -32,7 +32,14 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: null,
+      car: {
+        body_style: 'Sedan',
+        confidence: '0.68',
+        imageURL: 'https://auto-finder.s3.us-west-1.amazonaws.com/9a6cd249-20ce-4f30-9906-01db4990739a',
+        make: 'Mercedes-Benz',
+        model: 'E-Class',
+        model_year: '1996'
+      },
       faveListings: [],
       listings: null,
       listing: null,
