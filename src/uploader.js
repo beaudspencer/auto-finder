@@ -44,7 +44,10 @@ export default class Uploader extends React.Component {
   }
   startCapture() {
     const constraints = {
-      video: true
+      video: {
+        facingMode: { exact: 'environment'
+        }
+      }
     }
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
