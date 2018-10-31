@@ -98,7 +98,9 @@ export default class Listing extends React.Component {
           >
             <InfoIcon />
           </DetailButton>
-          <StarIconButton>
+          <StarIconButton
+            onClick={this.favoriteListing}
+          >
             <StarBorderIcon />
           </StarIconButton>
         </CardContent>
