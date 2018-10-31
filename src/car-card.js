@@ -106,7 +106,7 @@ export default class CarCard extends React.Component {
             </div>
           </Card>
         </div>}
-        {!this.props.car && <div>
+        {!this.props.car && <div style={styles.div}>
           <Typography
             variant="h6"
             component="h2"
