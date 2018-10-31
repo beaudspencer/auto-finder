@@ -14,6 +14,7 @@ const styles = {
     width: 'fit-content'
   },
   card: {
+    position: 'relative',
     margin: '0 auto',
     width: '92%',
     maxWidth: '435px'
@@ -22,8 +23,9 @@ const styles = {
     objectFit: 'cover'
   },
   search: {
-    position: 'relative',
-    marginTop: '0.33rem'
+    position: 'absolute',
+    right: '3rem',
+    bottom: '1rem'
   }
 }
 
@@ -38,8 +40,8 @@ const SearchButton = withStyles({
 const SearchLoader = withStyles({
   root: {
     position: 'absolute',
-    left: '1.35rem',
-    bottom: '0.8rem'
+    left: '1.32rem',
+    bottom: '0.82rem'
   }
 })(CircularProgress)
 

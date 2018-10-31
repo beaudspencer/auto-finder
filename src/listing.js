@@ -1,5 +1,12 @@
 import React from 'react'
-import {Card, CardContent, Typography, withStyles, Button} from '@material-ui/core'
+import {
+  Card,
+  CardContent,
+  Typography,
+  withStyles,
+  Button
+} from '@material-ui/core'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
 import hash from './hash'
 
 const FullCard = withStyles({
@@ -76,7 +83,7 @@ export default class Listing extends React.Component {
           <DetailButton
             onClick={this.pullDetails}
           >
-            View Details
+            <InfoIcon />
           </DetailButton>
         </CardContent>
       </FullCard>
