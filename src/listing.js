@@ -24,8 +24,8 @@ const MoneyText = withStyles({
 const DetailButton = withStyles({
   root: {
     position: 'absolute',
-    right: '2.5rem',
-    bottom: '15%'
+    right: '1rem',
+    bottom: '1.55rem'
   }
 })(Button)
 
