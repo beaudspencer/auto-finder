@@ -1,8 +1,4 @@
 import React from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Button from '@material-ui/core/Button'
-import ToolBar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import Cssbaseline from '@material-ui/core/CssBaseline'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -11,6 +7,7 @@ import orange from '@material-ui/core/colors/orange'
 import Uploader from './uploader'
 import Load from './load'
 import CarCard from './car-card'
+import Navi from './navi'
 import ListingList from './listing-list'
 import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
@@ -24,13 +21,6 @@ const theme = createMuiTheme({
     default: '#E0E0E0'
   }
 })
-
-const styles = {
-  appButtons: {
-    position: 'absolute',
-    right: '4%'
-  }
-}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -49,7 +39,8 @@ export default class App extends React.Component {
         imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
       },
       listings: null,
-      listing: null
+      listing: null,
+      listingPrice: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
@@ -103,7 +94,7 @@ export default class App extends React.Component {
         })
       })
   }
-  renderPage(price) {
+  renderPage() {
     if (this.state.view.path === 'uploader') {
       return (
         <Uploader
@@ -123,14 +114,12 @@ export default class App extends React.Component {
     else if (this.state.view.path === 'listing') {
       return <ListingDetailsContainer
         setListing={this.setListing}
-        price={price}
       />
     }
     else if (this.state.view.path === 'listings') {
       return <ListingList
         car={this.state.car}
         listings={this.state.listings}
-        pullDetails={this.renderPage}
       />
     }
   }
@@ -139,42 +128,7 @@ export default class App extends React.Component {
       <Cssbaseline>
         <MuiThemeProvider theme={theme}>
           <React.Fragment>
-            <AppBar
-              color="primary"
-              position="sticky"
-            >
-              <ToolBar>
-                <Typography
-                  variant="title"
-                  component="h6"
-                  color="inherit"
-                >
-                  Auto-Finder
-                </Typography>
-                <div
-                  style={styles.appButtons}
-                >
-                  <Button
-                    href="#uploader"
-                    color="inherit"
-                  >
-                    Uploader
-                  </Button>
-                  <Button
-                    href="#car"
-                    color="inherit"
-                  >
-                    Car
-                  </Button>
-                  <Button
-                    href="#listings"
-                    color="inherit"
-                  >
-                    Listings
-                  </Button>
-                </div>
-              </ToolBar>
-            </AppBar>
+            <Navi/>
             {this.renderPage()}
           </React.Fragment>
         </MuiThemeProvider>
