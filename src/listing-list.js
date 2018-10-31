@@ -1,7 +1,7 @@
 import React from 'react'
 import {List, ListItem, Button, withStyles, Typography} from '@material-ui/core'
-import ArrowRight from '@material-ui/icons/ArrowRightRounded'
-import ArrowLeft from '@material-ui/icons/ArrowLeftRounded'
+import ArrowForward from '@material-ui/icons/ArrowForward'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 import Listing from './listing'
 
 const styles = {
@@ -78,7 +78,7 @@ export default class ListingList extends React.Component {
     if (!this.props.listings) {
       return (
         <ListingsTitle
-          variant="title"
+          variant="h6"
           component="h2"
           color="inherit"
         >
@@ -88,7 +88,7 @@ export default class ListingList extends React.Component {
     }
     else if (this.props.listings.length < 1) {
       return (<ListingsTitle
-        variant="title"
+        variant="h6"
         component="h2"
         color="inherit"
       >
@@ -98,7 +98,7 @@ export default class ListingList extends React.Component {
     return (
       <React.Fragment>
         <ListingsTitle
-          variant="title"
+          variant="h6"
           component="h2"
           color="inherit"
         >
@@ -124,19 +124,15 @@ export default class ListingList extends React.Component {
           <PrevButton
             id="prev"
             onClick={this.handleClick}
-            variant="contained"
-            color="primary"
           >
-            <ArrowLeft/>
+            <ArrowBack/>
           </PrevButton>}
           {this.state.page + 1 < this.props.listings.length &&
           <NextButton
             id="next"
             onClick={this.handleClick}
-            variant="contained"
-            color="primary"
           >
-            <ArrowRight/>
+            <ArrowForward/>
           </NextButton>}
         </div>
         <CurrentPage

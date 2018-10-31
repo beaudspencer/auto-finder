@@ -10,7 +10,7 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails
 } from '@material-ui/core'
-import {ArrowRight, ArrowLeft, ExpandMore} from '@material-ui/icons'
+import {ArrowBack, ArrowForward, ExpandMore} from '@material-ui/icons'
 
 const styles = {
   container: {
@@ -52,7 +52,7 @@ const ImageSkinny = withStyles({
 const ImageTracker = withStyles({
   root: {
     position: 'absolute',
-    marginTop: '1rem',
+    marginTop: '0.7rem',
     left: '50%',
     transform: 'translateX(-50%)'
   }
@@ -142,14 +142,14 @@ export default class ListingDetails extends React.Component {
       <React.Fragment>
         <div style={styles.container}>
           <Typography
-            variant="title"
+            variant="h6"
             component="h2"
             color="inherit"
           >
             {details.title}
           </Typography>
           <Typography
-            variant="subheading"
+            variant="subtitle1"
             color="textSecondary"
             component="h4"
           >
@@ -178,7 +178,7 @@ export default class ListingDetails extends React.Component {
             {
               !details.images &&
               <NoImagesText
-                variant="title"
+                variant="h6"
                 component="div"
               >
                 No Images!
@@ -188,12 +188,10 @@ export default class ListingDetails extends React.Component {
               details.images &&
               <CardButtons>
                 <Prev
-                  variant="contained"
-                  color="primary"
                   onClick={this.handleClick}
                   id="back"
                 >
-                  <ArrowLeft/>
+                  <ArrowBack/>
                 </Prev>
                 <ImageTracker
                   component="div"
@@ -201,12 +199,10 @@ export default class ListingDetails extends React.Component {
                   {(currentImg + 1) + ' of ' + details.images.length}
                 </ImageTracker>
                 <Next
-                  variant="contained"
-                  color="primary"
                   onClick={this.handleClick}
                   id="forth"
                 >
-                  <ArrowRight/>
+                  <ArrowForward/>
                 </Next>
               </CardButtons>
             }

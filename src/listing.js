@@ -47,7 +47,7 @@ export default class Listing extends React.Component {
       <FullCard>
         <CardContent>
           <Typography
-            variant="title"
+            variant="h6"
             component="h2"
             gutterBottom
           >

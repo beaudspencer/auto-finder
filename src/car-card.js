@@ -73,14 +73,14 @@ export default class CarCard extends React.Component {
             <CardContent>
               <Typography
                 gutterBottom
-                variant="title"
+                variant="h6"
                 component="h4"
               >
                 {this.props.car.model}
               </Typography>
               <Typography
                 color="textSecondary"
-                variant="subheading"
+                variant="subtitle1"
                 component="h6"
                 gutterBottom
               >
@@ -88,7 +88,7 @@ export default class CarCard extends React.Component {
               </Typography>
               <Typography
                 color="textSecondary"
-                variant="subheading"
+                variant="subtitle1"
                 component="h6"
               >
                 {'Year: ' + this.props.car.model_year}
@@ -108,7 +108,7 @@ export default class CarCard extends React.Component {
         </div>}
         {!this.props.car && <div>
           <Typography
-            variant="title"
+            variant="h6"
             component="h2"
           >
             You have yet to find a car this session

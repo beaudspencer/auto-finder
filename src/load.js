@@ -16,7 +16,7 @@ export default function Load(props) {
   return (
     <div style={styles.div}>
       <Typography
-        variant="title"
+        variant="h6"
         component="h2"
         align="center"
       >
@@ -26,7 +26,7 @@ export default function Load(props) {
         <CircularProgress color="secondary"/>
       </div>
       <Typography
-        variant="title"
+        variant="h6"
         component="h4"
         align="center"
       >

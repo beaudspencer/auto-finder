@@ -68,7 +68,7 @@ export default class Uploader extends React.Component {
         <Typography
           color="textPrimary"
           component="h4"
-          variant="title"
+          variant="h6"
           align="center"
           gutterBottom
         >
