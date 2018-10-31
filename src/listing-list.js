@@ -59,6 +59,10 @@ export default class ListingList extends React.Component {
       page: 0
     }
     this.handleClick = this.handleClick.bind(this)
+    this.favoriteListing = this.favoriteListing.bind(this)
+  }
+  favoriteListing(listing) {
+    this.props.favoriteListing(listing)
   }
   handleClick(event) {
     window.scrollTo(0, 0)
@@ -113,6 +117,7 @@ export default class ListingList extends React.Component {
                 <ListItem>
                   <Listing
                     listing={listing}
+                    favoriteListing={this.favoriteListing}
                   />
                 </ListItem>
               </div>

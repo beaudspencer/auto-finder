@@ -42,6 +42,7 @@ export default class Listing extends React.Component {
   constructor(props) {
     super(props)
     this.pullDetails = this.pullDetails.bind(this)
+    this.favoriteListing = this.favoriteListing.bind(this)
   }
   pullDetails() {
     location.hash = hash.stringify({
@@ -50,6 +51,9 @@ export default class Listing extends React.Component {
         url: this.props.listing.url
       }
     })
+  }
+  favoriteListing() {
+    this.props.favoriteListing(this.props.listing)
   }
   render() {
     return (

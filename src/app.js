@@ -57,6 +57,13 @@ export default class App extends React.Component {
       })
     })
   }
+  favoriteListing(listing) {
+    const favorited = this.state.faveListings.slice()
+    favorited.push(listing)
+    this.setState({
+      faveListings: favorited
+    })
+  }
   setListing(listing) {
     this.setState({
       listing: listing
@@ -118,6 +125,7 @@ export default class App extends React.Component {
     else if (this.state.view.path === 'listings') {
       return <ListingList
         car={this.state.car}
+        favoriteListing={this.favoriteListing}
         listings={this.state.listings}
       />
     }
