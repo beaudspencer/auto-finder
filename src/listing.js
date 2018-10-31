@@ -112,8 +112,8 @@ export default class Listing extends React.Component {
           >
             {
               this.state.favorited
-                ? <StarIcon/>
-                : <StarBorderIcon/>
+                ? <StarIcon color="secondary"/>
+                : <StarBorderIcon color="secondary"/>
             }
           </StarIconButton>
         </CardContent>
