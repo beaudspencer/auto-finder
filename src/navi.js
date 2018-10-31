@@ -11,17 +11,24 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 
+const styles = {
+  drawer: {
+    width: '12rem'
+  }
+}
+
 export default class Navi extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       open: false
     }
-    this.toggleDrawer = (state) => () => {
-      this.setState({
-        open: state
-      })
-    }
+    this.toggleDrawer = this.toggleDrawer.bind(this)
+  }
+  toggleDrawer() {
+    this.setState({
+      open: !this.state.open
+    })
   }
   handleClick(event) {
     const id = event.target.closest('[id]').id
@@ -36,25 +43,28 @@ export default class Navi extends React.Component {
         <Toolbar>
           <IconButton
             color="inherit"
-            onClick={this.toggleDrawer(true)}
+            onClick={this.toggleDrawer}
           >
             <MenuIcon/>
           </IconButton>
           <Typography
-            variant="title"
+            variant="h6"
             component="h6"
             color="inherit"
           >
             Auto-Finder
           </Typography>
-          <Drawer open={this.state.open} onClose={this.toggleDrawer(false)}>
+          <Drawer
+            open={this.state.open}
+            onClose={this.toggleDrawer}
+          >
             <div
               tabIndex={0}
               role="button"
-              onClick={this.toggleDrawer(false)}
-              onKeyDown={this.toggleDrawer(false)}
+              onClick={this.toggleDrawer}
+              onKeyDown={this.toggleDrawer}
             >
-              <List>
+              <List style={styles.drawer}>
                 <ListItem
                   button
                   onClick={this.handleClick}
