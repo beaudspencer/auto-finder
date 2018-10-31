@@ -8,7 +8,14 @@ import {
 } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import StarBorderIcon from '@material-ui/icons/StarBorder'
+import StarIcon from '@material-ui/icons/Star'
 import hash from './hash'
+
+const Link = withStyles({
+  root: {
+    width: 'fit-content'
+  }
+})(Typography)
 
 const FullCard = withStyles({
   root: {
@@ -41,6 +48,9 @@ const StarIconButton = withStyles({
 export default class Listing extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      favorited: this.props.favorited
+    }
     this.pullDetails = this.pullDetails.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
   }
@@ -53,6 +63,9 @@ export default class Listing extends React.Component {
     })
   }
   favoriteListing() {
+    this.setState({
+      favorited: true
+    })
     this.props.favoriteListing(this.props.listing)
   }
   render() {
@@ -75,24 +88,19 @@ export default class Listing extends React.Component {
               ? this.props.listing.price
               : 'No Price Listed!'}
           </MoneyText>
-          <Typography
-            variant="body1"
-            component="h6"
+          <Link
+            variant="subtitle2"
+            component="p"
+            color="primary"
           >
             <a
               href={this.props.listing.url}
               target="_blank"
               rel ="noopener noreferrer"
             >
-              <Typography
-                variant="subtitle2"
-                component="p"
-                color="primary"
-              >
-                Original Listing
-              </Typography>
+              Original Listing
             </a>
-          </Typography>
+          </Link>
           <DetailButton
             onClick={this.pullDetails}
           >
@@ -100,8 +108,13 @@ export default class Listing extends React.Component {
           </DetailButton>
           <StarIconButton
             onClick={this.favoriteListing}
+            disabled={this.state.favorited}
           >
-            <StarBorderIcon />
+            {
+              this.state.favorited
+                ? <StarIcon/>
+                : <StarBorderIcon/>
+            }
           </StarIconButton>
         </CardContent>
       </FullCard>
