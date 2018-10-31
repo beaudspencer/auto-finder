@@ -34,7 +34,6 @@ export default class Listing extends React.Component {
         url: this.props.listing.url
       }
     })
-    this.props.pullDetails(this.props.listing.price)
   }
   render() {
     return (
