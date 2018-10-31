@@ -10,7 +10,7 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails
 } from '@material-ui/core'
-import {ArrowRight, ArrowLeft, ExpandMore} from '@material-ui/icons'
+import {ArrowBack, ArrowForward, ExpandMore} from '@material-ui/icons'
 
 const styles = {
   container: {
@@ -22,9 +22,16 @@ const styles = {
 
 const DetailsCard = withStyles({
   root: {
-    margin: '1rem 0'
+    textAlign: 'center',
+    margin: '1rem auto'
   }
 })(Card)
+
+const NoImagesText = withStyles({
+  root: {
+    margin: '1rem auto'
+  }
+})(Typography)
 
 const ImageWide = withStyles({
   media: {
@@ -45,7 +52,7 @@ const ImageSkinny = withStyles({
 const ImageTracker = withStyles({
   root: {
     position: 'absolute',
-    marginTop: '1rem',
+    marginTop: '0.7rem',
     left: '50%',
     transform: 'translateX(-50%)'
   }
@@ -127,62 +134,78 @@ export default class ListingDetails extends React.Component {
     const {currentImg} = this.state
     const {attributes} = details
     const postedTimeStamp = details.postedAt.slice(0, 10)
-    const updatedTimeStamp = details.updatedAt.slice(0, 10)
+    let updatedTimeStamp = null
+    if (details.updatedAt) {
+      updatedTimeStamp = details.updatedAt.slice(0, 10)
+    }
     return (
       <React.Fragment>
         <div style={styles.container}>
           <Typography
-            variant="title"
+            variant="h6"
             component="h2"
             color="inherit"
           >
-            {details.title + '-' + details.price}
+            {details.title}
           </Typography>
           <Typography
-            variant="subheading"
+            variant="subtitle1"
             color="textSecondary"
             component="h4"
           >
             {'Posted: ' + postedTimeStamp}
           </Typography>
           <DetailsCard>
-            {this.state.view === 'skinny' &&
-              <ImageSkinny
-                component="img"
-                title="Current-Car-Image"
-                image={details.images[currentImg]}
-              />
+            {
+              details.images &&
+            <React.Fragment>
+              {this.state.view === 'skinny' &&
+                <ImageSkinny
+                  component="img"
+                  title="Current-Car-Image"
+                  image={details.images[currentImg]}
+                />
+              }
+              {this.state.view === 'wide' &&
+                <ImageWide
+                  component="img"
+                  title="Current-Car-Image"
+                  image={details.images[currentImg]}
+                />
+              }
+            </React.Fragment>
             }
-            {this.state.view === 'wide' &&
-              <ImageWide
-                component="img"
-                title="Current-Car-Image"
-                image={details.images[currentImg]}
-              />
-            }
-            <CardButtons>
-              <Prev
-                variant="contained"
-                color="primary"
-                onClick={this.handleClick}
-                id="back"
-              >
-                <ArrowLeft/>
-              </Prev>
-              <ImageTracker
+            {
+              !details.images &&
+              <NoImagesText
+                variant="h6"
                 component="div"
               >
-                {(currentImg + 1) + ' of ' + details.images.length}
-              </ImageTracker>
-              <Next
-                variant="contained"
-                color="primary"
-                onClick={this.handleClick}
-                id="forth"
-              >
-                <ArrowRight/>
-              </Next>
-            </CardButtons>
+                No Images!
+              </NoImagesText>
+            }
+            {
+              details.images &&
+              <CardButtons>
+                <Prev
+                  onClick={this.handleClick}
+                  id="back"
+                >
+                  <ArrowBack/>
+                </Prev>
+                <ImageTracker
+                  component="div"
+                >
+                  {(currentImg + 1) + ' of ' + details.images.length}
+                </ImageTracker>
+                <Next
+                  onClick={this.handleClick}
+                  id="forth"
+                >
+                  <ArrowForward/>
+                </Next>
+              </CardButtons>
+            }
           </DetailsCard>
           <SpaceExpansion defaultExpanded>
             <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
@@ -242,7 +265,7 @@ export default class ListingDetails extends React.Component {
             gutterBottom
             color="textSecondary"
           >
-            {'Last Updated: ' + updatedTimeStamp}
+            {'Last Updated: ' + updatedTimeStamp ? updatedTimeStamp : 'Not Updated'}
           </Typography>
         </div>
       </React.Fragment>

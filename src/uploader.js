@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core'
+import Load from './load'
 
 const styles = {
   container: {
@@ -34,6 +35,9 @@ const CaptureCard = withStyles({
 export default class Uploader extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      isLoading: false
+    }
     this.video = React.createRef()
     this.canvas = React.createRef()
     this.handleCapture = this.handleCapture.bind(this)
@@ -48,6 +52,9 @@ export default class Uploader extends React.Component {
       })
   }
   handleCapture() {
+    this.setState({
+      isLoading: true
+    })
     const canvas = this.canvas.current
     const player = this.video.current
     const context = canvas.getContext('2d')
@@ -63,49 +70,56 @@ export default class Uploader extends React.Component {
     this.startCapture()
   }
   render() {
-    return (
-      <div style={styles.container}>
-        <Typography
-          color="textPrimary"
-          component="h4"
-          variant="title"
-          align="center"
-          gutterBottom
-        >
-            Upload a photo of a car to get started
-        </Typography>
-        <CaptureCard>
-          <CardContent>
-            <div style={styles.content}>
-              <video
-                ref={this.video}
-                id="player"
-                autoPlay
-                width="100%"
-              ></video>
-            </div>
-            <div style={styles.canvas}>
-              <canvas
-                ref={this.canvas}
-                id="canvas"
-                width="4000"
-                height="3000"
-              ></canvas>
-            </div>
-          </CardContent>
-          <CardActions>
-            <div style={styles.button}>
-              <Button
-                onClick={this.handleCapture}
-                variant="contained"
-                color="primary"
-              >
-                capture!
-              </Button>
-            </div>
-          </CardActions>
-        </CaptureCard>
-      </div>
-    )
+    if (this.state.isLoading) {
+      return (
+        <Load/>
+      )
+    }
+    else {
+      return (
+        <div style={styles.container}>
+          <Typography
+            color="textPrimary"
+            component="h4"
+            variant="h6"
+            align="center"
+            gutterBottom
+          >
+              Upload a photo of a car to get started
+          </Typography>
+          <CaptureCard>
+            <CardContent>
+              <div style={styles.content}>
+                <video
+                  ref={this.video}
+                  id="player"
+                  autoPlay
+                  width="100%"
+                ></video>
+              </div>
+              <div style={styles.canvas}>
+                <canvas
+                  ref={this.canvas}
+                  id="canvas"
+                  width="4000"
+                  height="3000"
+                ></canvas>
+              </div>
+            </CardContent>
+            <CardActions>
+              <div style={styles.button}>
+                <Button
+                  onClick={this.handleCapture}
+                  variant="contained"
+                  color="primary"
+                >
+                  capture!
+                </Button>
+              </div>
+            </CardActions>
+          </CaptureCard>
+        </div>
+      )
+    }
   }
 }

@@ -1,5 +1,13 @@
 import React from 'react'
-import {Card, CardContent, Typography, withStyles, Button} from '@material-ui/core'
+import {
+  Card,
+  CardContent,
+  Typography,
+  withStyles,
+  Button
+} from '@material-ui/core'
+import InfoIcon from '@material-ui/icons/InfoOutlined'
+import hash from './hash'
 
 const FullCard = withStyles({
   root: {
@@ -16,8 +24,8 @@ const MoneyText = withStyles({
 const DetailButton = withStyles({
   root: {
     position: 'absolute',
-    right: '2.5rem',
-    bottom: '15%'
+    right: '1rem',
+    bottom: '1.55rem'
   }
 })(Button)
 
@@ -27,14 +35,19 @@ export default class Listing extends React.Component {
     this.pullDetails = this.pullDetails.bind(this)
   }
   pullDetails() {
-    this.props.pullDetails(this.props.listing.url, this.props.listing.price)
+    location.hash = hash.stringify({
+      path: 'listing',
+      params: {
+        url: this.props.listing.url
+      }
+    })
   }
   render() {
     return (
       <FullCard>
         <CardContent>
           <Typography
-            variant="title"
+            variant="h6"
             component="h2"
             gutterBottom
           >
@@ -70,7 +83,7 @@ export default class Listing extends React.Component {
           <DetailButton
             onClick={this.pullDetails}
           >
-            View Details
+            <InfoIcon />
           </DetailButton>
         </CardContent>
       </FullCard>
