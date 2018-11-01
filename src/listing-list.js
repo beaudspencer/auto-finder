@@ -78,6 +78,14 @@ export default class ListingList extends React.Component {
       })
     }
   }
+  checkFavorite(favorites, listing) {
+    for (let c = 0; c < favorites.length || 0; c++) {
+      if (favorites[c].pid === listing.pid) {
+        return true
+      }
+    }
+    return false
+  }
   render() {
     if (!this.props.listings) {
       return (
@@ -112,13 +120,9 @@ export default class ListingList extends React.Component {
         </ListingsTitle>
         <List>
           {this.props.listings[this.state.page].map(listing => {
-            let favorited = false
-            for (let c = 0; c < this.props.faveListings.length; c++) {
-              if (this.props.faveListings[c].pid === listing.pid) {
-                favorited = true
-                break
-              }
-            }
+            const favorited = this.props.faveListings
+              ? this.checkFavorite(this.props.faveListings, listing)
+              : false
             return (
               <div key={listing.pid} style={styles.listItem}>
                 <ListItem>
