@@ -86,7 +86,50 @@ export default class ListingList extends React.Component {
     }
     return false
   }
-  render() {
+  renderList() {
+    return location.hash === '#listings'
+      ? this.props.listings[this.state.page].map(listing => {
+        const favorited = this.props.faveListings
+          ? this.checkFavorite(this.props.faveListings, listing)
+          : false
+        return (
+          <div key={listing.pid} style={styles.listItem}>
+            <ListItem>
+              <Listing
+                listing={listing}
+                favorited={favorited}
+                favoriteListing={this.favoriteListing}
+              />
+            </ListItem>
+          </div>
+        )
+      })
+      : this.props.faveListings.map(listing => {
+        return (
+          <div key={listing.pid} style={styles.listItem}>
+            <ListItem>
+              <Listing
+                listing={listing}
+                favorited={true}
+                favoriteListing={this.favoriteListing}
+              />
+            </ListItem>
+          </div>
+        )
+      })
+  }
+  renderHeading() {
+    if (location.hash === '#favlistings') {
+      return (
+        <ListingsTitle
+          variant="h6"
+          component="h2"
+          color="inherit"
+        >
+          Favorite Listings
+        </ListingsTitle>
+      )
+    }
     if (!this.props.listings) {
       return (
         <ListingsTitle
@@ -98,28 +141,18 @@ export default class ListingList extends React.Component {
         </ListingsTitle>
       )
     }
-    else if (location.hash === 'favlistings') {
+    else if (this.props.listings.length < 1) {
       return (
         <ListingsTitle
           variant="h6"
           component="h2"
           color="inherit"
         >
-          Favorite Listings.
-        </ListingsTitle>
-      )
+          {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
+        </ListingsTitle>)
     }
-    else if (this.props.listings.length < 1) {
-      return (<ListingsTitle
-        variant="h6"
-        component="h2"
-        color="inherit"
-      >
-        {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
-      </ListingsTitle>)
-    }
-    return (
-      <React.Fragment>
+    else {
+      return (
         <ListingsTitle
           variant="h6"
           component="h2"
@@ -129,38 +162,16 @@ export default class ListingList extends React.Component {
             `Showing Listings For ${this.props.car.make} ${this.props.car.model}`
           }
         </ListingsTitle>
+      )
+    }
+  }
+  render() {
+    return (
+      <React.Fragment>
+        {this.renderHeading()}
         <List>
           {
-            location.hash === '#listings'
-              ? this.props.listings[this.state.page].map(listing => {
-                const favorited = this.props.faveListings
-                  ? this.checkFavorite(this.props.faveListings, listing)
-                  : false
-                return (
-                  <div key={listing.pid} style={styles.listItem}>
-                    <ListItem>
-                      <Listing
-                        listing={listing}
-                        favorited={favorited}
-                        favoriteListing={this.favoriteListing}
-                      />
-                    </ListItem>
-                  </div>
-                )
-              })
-              : this.props.faveListings.map(listing => {
-                return (
-                  <div key={listing.pid} style={styles.listItem}>
-                    <ListItem>
-                      <Listing
-                        listing={listing}
-                        favorited={true}
-                        favoriteListing={this.favoriteListing}
-                      />
-                    </ListItem>
-                  </div>
-                )
-              })
+            this.renderList()
           }
         </List>
         {
