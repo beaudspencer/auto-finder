@@ -32,10 +32,10 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: null,
-      faveListings: [],
-      listings: null,
-      listing: null
+      car: JSON.parse(localStorage.getItem('car')),
+      faveListings: JSON.parse(localStorage.getItem('faveListings')),
+      listings: JSON.parse(localStorage.getItem('listings')),
+      listing: JSON.parse(localStorage.getItem('listing'))
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
@@ -49,9 +49,17 @@ export default class App extends React.Component {
         view: hash.parse(location.hash)
       })
     })
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('car', JSON.stringify(this.state.car))
+      localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
+      localStorage.setItem('listing', JSON.stringify(this.state.listing))
+      localStorage.setItem('listings', JSON.stringify(this.state.listings))
+    })
   }
   favoriteListing(listing) {
-    const favorited = this.state.faveListings.slice()
+    const favorited = this.state.faveListings
+      ? this.state.faveListings.slice()
+      : []
     favorited.push(listing)
     this.setState({
       faveListings: favorited
