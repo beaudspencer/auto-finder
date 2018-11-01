@@ -92,6 +92,15 @@ export default class Navi extends React.Component {
                     Listings
                   </ListItemText>
                 </ListItem>
+                <ListItem
+                  button
+                  onClick={this.handleClick}
+                  id="favlistings"
+                >
+                  <ListItemText>
+                    Favorite Listings
+                  </ListItemText>
+                </ListItem>
               </List>
             </div>
           </Drawer>
