@@ -123,7 +123,7 @@ export default class App extends React.Component {
         setListing={this.setListing}
       />
     }
-    else if (this.state.view.path === 'listings') {
+    else if (this.state.view.path === 'listings' || 'favlistings') {
       return <ListingList
         car={this.state.car}
         faveListings={this.state.faveListings}
