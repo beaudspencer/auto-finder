@@ -59,6 +59,10 @@ export default class ListingList extends React.Component {
       page: 0
     }
     this.handleClick = this.handleClick.bind(this)
+    this.favoriteListing = this.favoriteListing.bind(this)
+  }
+  favoriteListing(listing) {
+    this.props.favoriteListing(listing)
   }
   handleClick(event) {
     window.scrollTo(0, 0)
@@ -73,6 +77,14 @@ export default class ListingList extends React.Component {
         page: this.state.page + 1
       })
     }
+  }
+  checkFavorite(favorites, listing) {
+    for (let c = 0; c < favorites.length || 0; c++) {
+      if (favorites[c].pid === listing.pid) {
+        return true
+      }
+    }
+    return false
   }
   render() {
     if (!this.props.listings) {
@@ -108,11 +120,16 @@ export default class ListingList extends React.Component {
         </ListingsTitle>
         <List>
           {this.props.listings[this.state.page].map(listing => {
+            const favorited = this.props.faveListings
+              ? this.checkFavorite(this.props.faveListings, listing)
+              : false
             return (
               <div key={listing.pid} style={styles.listItem}>
                 <ListItem>
                   <Listing
                     listing={listing}
+                    favorited={favorited}
+                    favoriteListing={this.favoriteListing}
                   />
                 </ListItem>
               </div>

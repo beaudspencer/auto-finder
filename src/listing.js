@@ -4,10 +4,18 @@ import {
   CardContent,
   Typography,
   withStyles,
-  Button
+  IconButton
 } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
+import StarBorderIcon from '@material-ui/icons/StarBorder'
+import StarIcon from '@material-ui/icons/Star'
 import hash from './hash'
+
+const Link = withStyles({
+  root: {
+    width: 'fit-content'
+  }
+})(Typography)
 
 const FullCard = withStyles({
   root: {
@@ -24,15 +32,27 @@ const MoneyText = withStyles({
 const DetailButton = withStyles({
   root: {
     position: 'absolute',
-    right: '1rem',
-    bottom: '1.55rem'
+    right: '2rem',
+    bottom: '1.2rem'
   }
-})(Button)
+})(IconButton)
+
+const StarIconButton = withStyles({
+  root: {
+    position: 'absolute',
+    bottom: '1.2rem',
+    right: '4.5rem'
+  }
+})(IconButton)
 
 export default class Listing extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      favorited: this.props.favorited
+    }
     this.pullDetails = this.pullDetails.bind(this)
+    this.favoriteListing = this.favoriteListing.bind(this)
   }
   pullDetails() {
     location.hash = hash.stringify({
@@ -41,6 +61,12 @@ export default class Listing extends React.Component {
         url: this.props.listing.url
       }
     })
+  }
+  favoriteListing() {
+    this.setState({
+      favorited: true
+    })
+    this.props.favoriteListing(this.props.listing)
   }
   render() {
     return (
@@ -62,29 +88,34 @@ export default class Listing extends React.Component {
               ? this.props.listing.price
               : 'No Price Listed!'}
           </MoneyText>
-          <Typography
-            variant="body1"
-            component="h6"
+          <Link
+            variant="subtitle2"
+            component="p"
+            color="primary"
           >
             <a
               href={this.props.listing.url}
               target="_blank"
               rel ="noopener noreferrer"
             >
-              <Typography
-                variant="subtitle2"
-                component="p"
-                color="primary"
-              >
-                Original Listing
-              </Typography>
+              Original Listing
             </a>
-          </Typography>
+          </Link>
           <DetailButton
             onClick={this.pullDetails}
           >
             <InfoIcon />
           </DetailButton>
+          <StarIconButton
+            onClick={this.favoriteListing}
+            disabled={this.state.favorited}
+          >
+            {
+              this.state.favorited
+                ? <StarIcon color="secondary"/>
+                : <StarBorderIcon color="secondary"/>
+            }
+          </StarIconButton>
         </CardContent>
       </FullCard>
     )
