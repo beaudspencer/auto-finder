@@ -98,6 +98,17 @@ export default class ListingList extends React.Component {
         </ListingsTitle>
       )
     }
+    else if (location.hash === 'favlistings') {
+      return (
+        <ListingsTitle
+          variant="h6"
+          component="h2"
+          color="inherit"
+        >
+          Favorite Listings.
+        </ListingsTitle>
+      )
+    }
     else if (this.props.listings.length < 1) {
       return (<ListingsTitle
         variant="h6"
@@ -119,46 +130,67 @@ export default class ListingList extends React.Component {
           }
         </ListingsTitle>
         <List>
-          {this.props.listings[this.state.page].map(listing => {
-            const favorited = this.props.faveListings
-              ? this.checkFavorite(this.props.faveListings, listing)
-              : false
-            return (
-              <div key={listing.pid} style={styles.listItem}>
-                <ListItem>
-                  <Listing
-                    listing={listing}
-                    favorited={favorited}
-                    favoriteListing={this.favoriteListing}
-                  />
-                </ListItem>
-              </div>
-            )
-          })}
+          {
+            location.hash === '#listings'
+              ? this.props.listings[this.state.page].map(listing => {
+                const favorited = this.props.faveListings
+                  ? this.checkFavorite(this.props.faveListings, listing)
+                  : false
+                return (
+                  <div key={listing.pid} style={styles.listItem}>
+                    <ListItem>
+                      <Listing
+                        listing={listing}
+                        favorited={favorited}
+                        favoriteListing={this.favoriteListing}
+                      />
+                    </ListItem>
+                  </div>
+                )
+              })
+              : this.props.faveListings.map(listing => {
+                return (
+                  <div key={listing.pid} style={styles.listItem}>
+                    <ListItem>
+                      <Listing
+                        listing={listing}
+                        favorited={true}
+                        favoriteListing={this.favoriteListing}
+                      />
+                    </ListItem>
+                  </div>
+                )
+              })
+          }
         </List>
-        <div style={styles.container}>
-          {this.state.page > 0 &&
-          <PrevButton
-            id="prev"
-            onClick={this.handleClick}
-          >
-            <ArrowBack/>
-          </PrevButton>}
-          {this.state.page + 1 < this.props.listings.length &&
-          <NextButton
-            id="next"
-            onClick={this.handleClick}
-          >
-            <ArrowForward/>
-          </NextButton>}
-        </div>
-        <CurrentPage
-          variant="body1"
-          component="h6"
-          color="inherit"
-        >
-          {this.state.page + 1}
-        </CurrentPage>
+        {
+          location.hash === 'listings' &&
+            <React.Fragment>
+              <div style={styles.container}>
+                {this.state.page > 0 &&
+            <PrevButton
+              id="prev"
+              onClick={this.handleClick}
+            >
+              <ArrowBack/>
+            </PrevButton>}
+                {this.state.page + 1 < this.props.listings.length &&
+            <NextButton
+              id="next"
+              onClick={this.handleClick}
+            >
+              <ArrowForward/>
+            </NextButton>}
+              </div>
+              <CurrentPage
+                variant="body1"
+                component="h6"
+                color="inherit"
+              >
+                {this.state.page + 1}
+              </CurrentPage>
+            </React.Fragment>
+        }
       </React.Fragment>
     )
   }
