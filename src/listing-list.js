@@ -3,6 +3,7 @@ import {List, ListItem, Button, withStyles, Typography} from '@material-ui/core'
 import ArrowForward from '@material-ui/icons/ArrowForward'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Listing from './listing'
+import hash from './hash'
 
 const styles = {
   listItem: {
@@ -47,6 +48,7 @@ const CurrentPage = withStyles({
     position: 'absolute',
     left: '50%',
     marginTop: '0.5rem',
+    marginBottom: '1rem',
     marginLeft: '-16px',
     width: 'fit-content'
   }
@@ -55,9 +57,6 @@ const CurrentPage = withStyles({
 export default class ListingList extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      page: 0
-    }
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
   }
@@ -67,26 +66,65 @@ export default class ListingList extends React.Component {
   handleClick(event) {
     window.scrollTo(0, 0)
     const id = event.target.closest('button').id
-    if (id === 'prev' && this.state.page > 0) {
-      this.setState({
-        page: this.state.page - 1
+    if (id === 'prev' && this.props.page > 0) {
+      location.hash = hash.stringify({
+        path: hash.parse(location.hash).path,
+        params: {
+          page: this.props.page - 1
+        }
       })
     }
-    else if (id === 'next' && this.state.page < this.props.listings.length) {
-      this.setState({
-        page: this.state.page + 1
+    else if (id === 'next' && this.props.page < this.props.listings.length) {
+      location.hash = hash.stringify({
+        path: hash.parse(location.hash).path,
+        params: {
+          page: this.props.page + 1
+        }
       })
     }
   }
   checkFavorite(favorites, listing) {
-    for (let c = 0; c < favorites.length || 0; c++) {
-      if (favorites[c].pid === listing.pid) {
+    for (let c = 0; c < favorites.flat().length || 0; c++) {
+      if (favorites.flat()[c].pid === listing.pid) {
         return true
       }
     }
     return false
   }
-  render() {
+  renderList() {
+    return (this.props.listings[this.props.page].map(listing => {
+      let favorited = this.props.faveListings
+        ? this.checkFavorite(this.props.faveListings, listing)
+        : false
+      if (this.props.favorites) {
+        favorited = true
+      }
+      return (
+        <div key={listing.pid} style={styles.listItem}>
+          <ListItem>
+            <Listing
+              listing={listing}
+              favorited={favorited}
+              favoriteListing={this.favoriteListing}
+            />
+          </ListItem>
+        </div>
+      )
+    })
+    )
+  }
+  renderHeading() {
+    if (this.props.favorites) {
+      return (
+        <ListingsTitle
+          variant="h6"
+          component="h2"
+          color="inherit"
+        >
+          Favorite Listings
+        </ListingsTitle>
+      )
+    }
     if (!this.props.listings) {
       return (
         <ListingsTitle
@@ -99,16 +137,17 @@ export default class ListingList extends React.Component {
       )
     }
     else if (this.props.listings.length < 1) {
-      return (<ListingsTitle
-        variant="h6"
-        component="h2"
-        color="inherit"
-      >
-        {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
-      </ListingsTitle>)
+      return (
+        <ListingsTitle
+          variant="h6"
+          component="h2"
+          color="inherit"
+        >
+          {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
+        </ListingsTitle>)
     }
-    return (
-      <React.Fragment>
+    else {
+      return (
         <ListingsTitle
           variant="h6"
           component="h2"
@@ -118,47 +157,41 @@ export default class ListingList extends React.Component {
             `Showing Listings For ${this.props.car.make} ${this.props.car.model}`
           }
         </ListingsTitle>
+      )
+    }
+  }
+  render() {
+    return (
+      <React.Fragment>
+        {this.renderHeading()}
         <List>
-          {this.props.listings[this.state.page].map(listing => {
-            const favorited = this.props.faveListings
-              ? this.checkFavorite(this.props.faveListings, listing)
-              : false
-            return (
-              <div key={listing.pid} style={styles.listItem}>
-                <ListItem>
-                  <Listing
-                    listing={listing}
-                    favorited={favorited}
-                    favoriteListing={this.favoriteListing}
-                  />
-                </ListItem>
-              </div>
-            )
-          })}
+          {
+            this.renderList()
+          }
         </List>
         <div style={styles.container}>
-          {this.state.page > 0 &&
-          <PrevButton
-            id="prev"
-            onClick={this.handleClick}
+          {this.props.page > 0 &&
+            <PrevButton
+              id="prev"
+              onClick={this.handleClick}
+            >
+              <ArrowBack/>
+            </PrevButton>}
+          {this.props.page + 1 < this.props.listings.length &&
+            <NextButton
+              id="next"
+              onClick={this.handleClick}
+            >
+              <ArrowForward/>
+            </NextButton>}
+          <CurrentPage
+            variant="body1"
+            component="h6"
+            color="inherit"
           >
-            <ArrowBack/>
-          </PrevButton>}
-          {this.state.page + 1 < this.props.listings.length &&
-          <NextButton
-            id="next"
-            onClick={this.handleClick}
-          >
-            <ArrowForward/>
-          </NextButton>}
+            {this.props.page + 1}
+          </CurrentPage>
         </div>
-        <CurrentPage
-          variant="body1"
-          component="h6"
-          color="inherit"
-        >
-          {this.state.page + 1}
-        </CurrentPage>
       </React.Fragment>
     )
   }

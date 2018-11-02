@@ -58,11 +58,11 @@ export default class App extends React.Component {
   }
   favoriteListing(listing) {
     const favorited = this.state.faveListings
-      ? this.state.faveListings.slice()
+      ? this.state.faveListings.flat().slice()
       : []
     favorited.push(listing)
     this.setState({
-      faveListings: favorited
+      faveListings: this.paginate(favorited)
     })
   }
   setListing(listing) {
@@ -77,7 +77,12 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(listings => {
-        location.hash = 'listings'
+        location.hash = location.hash = hash.stringify({
+          path: 'listings',
+          params: {
+            page: 0
+          }
+        })
         this.setState({
           listings: this.paginate(listings)
         })
@@ -86,7 +91,7 @@ export default class App extends React.Component {
   paginate(array) {
     const paginatedListings = []
     for (let c = 0; c < array.length; c += 10) {
-      const page = array.slice(c, c + 10)
+      const page = array.flat().slice(c, c + 10)
       paginatedListings.push(page)
     }
     return paginatedListings
@@ -129,6 +134,14 @@ export default class App extends React.Component {
         faveListings={this.state.faveListings}
         favoriteListing={this.favoriteListing}
         listings={this.state.listings}
+        page={parseInt(this.state.view.params.page, 10)}
+      />
+    }
+    else if (this.state.view.path === 'favlistings') {
+      return <ListingList
+        page={parseInt(this.state.view.params.page, 10)}
+        listings={this.state.faveListings}
+        favorites={true}
       />
     }
   }
