@@ -41,6 +41,9 @@ export default class Navi extends React.Component {
         }
       })
     }
+    else {
+      location.hash = id
+    }
   }
   render() {
     return (
