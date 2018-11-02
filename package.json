@@ -70,6 +70,8 @@
     "node-craigslist": "^1.2.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
     "uuid": "^3.3.2"
   }
 }
