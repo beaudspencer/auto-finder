@@ -10,6 +10,7 @@ import {
   IconButton
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
+import hash from './hash'
 
 const styles = {
   drawer: {
@@ -32,7 +33,14 @@ export default class Navi extends React.Component {
   }
   handleClick(event) {
     const id = event.target.closest('[id]').id
-    location.hash = id
+    if (id === 'listings' || id === 'favlistings') {
+      location.hash = hash.stringify({
+        path: id,
+        params: {
+          page: 0
+        }
+      })
+    }
   }
   render() {
     return (
