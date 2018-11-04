@@ -10,6 +10,7 @@ import Navi from './navi'
 import ListingList from './listing-list'
 import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
+import Search from './search'
 
 const theme = createMuiTheme({
   palette: {
@@ -146,6 +147,11 @@ export default class App extends React.Component {
         listings={this.state.faveListings}
         favorites={true}
       />
+    }
+    else if (this.state.view.path === 'directsearch') {
+      return (
+        <Search />
+      )
     }
   }
   render() {
