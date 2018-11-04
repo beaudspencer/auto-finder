@@ -88,6 +88,15 @@ export default class Navi extends React.Component {
                 <ListItem
                   button
                   onClick={this.handleClick}
+                  id="directsearch"
+                >
+                  <ListItemText>
+                    Direct Search
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={this.handleClick}
                   id="car"
                 >
                   <ListItemText>
