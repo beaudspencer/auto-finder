@@ -7,9 +7,11 @@ const AWS = require('aws-sdk')
 const Algorithmia = require('algorithmia')
 const uuidv4 = require('uuid/v4')
 const craigslist = require('node-craigslist')
+const request = require('request-promise-native')
 
 const albumBucketName = process.env.BUCKET
 const bucketRegion = process.env.REGION
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 
 AWS.config.update({
   region: bucketRegion,
@@ -40,24 +42,35 @@ const upload = multer({
 const client = new craigslist.Client({
   city: 'orangecounty'
 })
-const options = {
-  category: 'cta'
-}
 
 const app = express()
 
 app.use(express.static('public'))
 
 app.get('/listings', (req, res) => {
-  const {search} = req.query
-  client.search(options, search)
-    .then(listings => {
-      res.json(listings)
+  const {latlng, search} = req.query
+  let postal
+  request({
+    uri: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&result_type=postal_code&key=${GOOGLE_API_KEY}`,
+    method: 'get'
+  })
+    .then(response => {
+      postal = (JSON.parse(response.body).results[0].address_components[0].long_name)
     })
-    .catch(err => {
-      res.sendStatus(500).jsonp({error: err})
-      console.error(err)
-    })
+    .then(
+      client.search({
+        category: 'cta',
+        postal: postal,
+        searchDistance: 40
+      }, search)
+        .then(listings => {
+          res.json(listings)
+        })
+        .catch(err => {
+          res.sendStatus(500).jsonp({error: err})
+          console.error(err)
+        })
+    )
 })
 
 app.get('/details', (req, res) => {

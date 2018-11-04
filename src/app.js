@@ -72,21 +72,24 @@ export default class App extends React.Component {
   }
   pullListings(car) {
     const searchTerm = car.make + ' ' + car.model
-    fetch(`/listings?search=${searchTerm}`, {
-      method: 'GET'
-    })
-      .then(res => res.json())
-      .then(listings => {
-        location.hash = location.hash = hash.stringify({
-          path: 'listings',
-          params: {
-            page: 0
-          }
-        })
-        this.setState({
-          listings: this.paginate(listings)
-        })
+    navigator.geolocation.getCurrentPosition(pos => {
+      const googleCoords = `${pos.coords.latitude},${pos.coords.longitude}`
+      fetch(`/listings?search=${searchTerm}&latlng=${googleCoords}`, {
+        method: 'GET'
       })
+        .then(res => res.json())
+        .then(listings => {
+          location.hash = location.hash = hash.stringify({
+            path: 'listings',
+            params: {
+              page: 0
+            }
+          })
+          this.setState({
+            listings: this.paginate(listings)
+          })
+        })
+    })
   }
   paginate(array) {
     const paginatedListings = []

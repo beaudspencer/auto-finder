@@ -88,6 +88,16 @@ export default class Listing extends React.Component {
               ? this.props.listing.price
               : 'No Price Listed!'}
           </MoneyText>
+          <Typography
+            variant="subtitle1"
+            component="p"
+            gutterBottom
+          >
+            {this.props.listing.location
+              ? `Location: ${this.props.listing.location}`
+              : 'No location listed'
+            }
+          </Typography>
           <Link
             variant="subtitle2"
             component="p"

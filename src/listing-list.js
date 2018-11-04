@@ -164,34 +164,39 @@ export default class ListingList extends React.Component {
     return (
       <React.Fragment>
         {this.renderHeading()}
-        <List>
-          {
-            this.renderList()
-          }
-        </List>
-        <div style={styles.container}>
-          {this.props.page > 0 &&
-            <PrevButton
-              id="prev"
-              onClick={this.handleClick}
-            >
-              <ArrowBack/>
-            </PrevButton>}
-          {this.props.page + 1 < this.props.listings.length &&
-            <NextButton
-              id="next"
-              onClick={this.handleClick}
-            >
-              <ArrowForward/>
-            </NextButton>}
-          <CurrentPage
-            variant="body1"
-            component="h6"
-            color="inherit"
-          >
-            {this.props.page + 1}
-          </CurrentPage>
-        </div>
+        {
+          this.props.listings &&
+          <React.Fragment>
+            <List>
+              {
+                this.renderList()
+              }
+            </List>
+            <div style={styles.container}>
+              {this.props.page > 0 &&
+                <PrevButton
+                  id="prev"
+                  onClick={this.handleClick}
+                >
+                  <ArrowBack/>
+                </PrevButton>}
+              {this.props.page + 1 < this.props.listings.length &&
+                <NextButton
+                  id="next"
+                  onClick={this.handleClick}
+                >
+                  <ArrowForward/>
+                </NextButton>}
+              <CurrentPage
+                variant="body1"
+                component="h6"
+                color="inherit"
+              >
+                {this.props.page + 1}
+              </CurrentPage>
+            </div>
+          </React.Fragment>
+        }
       </React.Fragment>
     )
   }
