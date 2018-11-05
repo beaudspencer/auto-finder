@@ -2,6 +2,8 @@
 
 A fullstack web application for car buyers to identify and buy a car.
 
+live-link: https://auto-finder.herokuapp.com/
+
 Technologies Used:
 
   - React.js
