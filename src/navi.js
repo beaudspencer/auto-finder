@@ -25,6 +25,7 @@ export default class Navi extends React.Component {
       open: false
     }
     this.toggleDrawer = this.toggleDrawer.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   toggleDrawer() {
     this.setState({
@@ -33,11 +34,21 @@ export default class Navi extends React.Component {
   }
   handleClick(event) {
     const id = event.target.closest('[id]').id
-    if (id === 'listings' || id === 'favlistings') {
+    if (id === 'favlistings') {
       location.hash = hash.stringify({
         path: id,
         params: {
           page: 0
+        }
+      })
+    }
+    else if (this.props.lastSearch.make && id === 'listings') {
+      location.hash = hash.stringify({
+        path: id,
+        params: {
+          page: 0,
+          make: this.props.lastSearch.make,
+          model: this.props.lastSearch.model
         }
       })
     }
