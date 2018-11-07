@@ -57,6 +57,7 @@ const CurrentPage = withStyles({
 export default class ListingList extends React.Component {
   constructor(props) {
     super(props)
+    this.query = hash.parse(location.hash).params
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
   }
@@ -143,7 +144,7 @@ export default class ListingList extends React.Component {
           component="h2"
           color="inherit"
         >
-          {`No Results Found for ${this.props.car.make} ${this.props.car.model}`}
+          {`No Results Found for ${this.query.make} ${this.query.model}`}
         </ListingsTitle>)
     }
     else {
@@ -154,7 +155,7 @@ export default class ListingList extends React.Component {
           color="inherit"
         >
           {
-            `Showing Listings For ${this.props.car.make} ${this.props.car.model}`
+            `Showing Listings For ${this.query.make} ${this.query.model}`
           }
         </ListingsTitle>
       )
