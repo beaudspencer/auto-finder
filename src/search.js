@@ -8,7 +8,8 @@ import {
   CardHeader,
   CardActions,
   withStyles,
-  Button
+  Button,
+  CircularProgress
 } from '@material-ui/core'
 
 const styles = {
@@ -33,13 +34,39 @@ const SearchCard = withStyles({
   }
 })(Card)
 
+const SearchLoader = withStyles({
+  root: {
+    position: 'absolute',
+    left: '1.75rem',
+    bottom: '1.4rem',
+    zIndex: '1'
+  }
+})(CircularProgress)
+
 export default class Search extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: false,
       make: '',
       model: ''
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleChange(event) {
+    const {id, value} = event.target
+    this.setState({
+      [id]: value
+    })
+  }
+  handleClick() {
+    this.setState({
+      loading: true
+    })
+    const {make, model} = this.state
+    const newCar = Object.assign({}, {make, model})
+    this.props.pullListings(newCar)
   }
   render() {
     return (
@@ -53,7 +80,9 @@ export default class Search extends React.Component {
             style={styles.inputs}
           >
             <TextField
+              onChange={this.handleChange}
               fullWidth
+              id="make"
               label="Make"
               placeholder="e.g. Toyota"
               variant="outlined"
@@ -64,18 +93,28 @@ export default class Search extends React.Component {
             style={styles.inputs}
           >
             <TextField
+              onChange={this.handleChange}
               fullWidth
+              id="model"
               label="Model"
               placeholder="e.g. Supra"
               variant="outlined"
               margin="normal"
             />
           </div>
+          {
+            this.state.loading &&
+            <SearchLoader
+              color="secondary"
+              size={60}
+            />
+          }
         </CardContent>
         <CardActions>
           <SearchButton
             variant="fab"
             color="primary"
+            onClick={this.handleClick}
           >
             <SearchIcon/>
           </SearchButton>
