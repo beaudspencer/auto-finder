@@ -33,12 +33,20 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: JSON.parse(localStorage.getItem('car')),
+      car: {
+        body_style: 'SUV',
+        confidence: '1.00',
+        make: 'Jeep',
+        model: 'Wrangler',
+        model_year: '2018',
+        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
+      },
       lastSearch: {
         make: null,
         model: null
       },
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
+      faveCars: [],
       listings: JSON.parse(localStorage.getItem('listings')),
       listing: JSON.parse(localStorage.getItem('listing'))
     }
