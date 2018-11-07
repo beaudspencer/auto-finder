@@ -55,7 +55,7 @@ app.get('/listings', (req, res) => {
     method: 'get'
   })
     .then(response => {
-      postal = (JSON.parse(response.body).results[0].address_components[0].long_name)
+      postal = (JSON.parse(response).results[0].address_components[0].long_name)
     })
     .then(
       client.search({
@@ -71,6 +71,10 @@ app.get('/listings', (req, res) => {
           console.error(err)
         })
     )
+    .catch(err => {
+      console.error(err)
+      res.sendStatus(500).jsonp({error: err})
+    })
 })
 
 app.get('/details', (req, res) => {
