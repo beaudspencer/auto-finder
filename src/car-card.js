@@ -7,6 +7,9 @@ import {withStyles} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import StarBorderIcon from '@material-ui/icons/StarBorder'
+import StarIcon from '@material-ui/icons/Star'
+import IconButton from '@material-ui/core/IconButton'
 
 const styles = {
   div: {
@@ -45,10 +48,19 @@ const SearchLoader = withStyles({
   }
 })(CircularProgress)
 
+const FavButton = withStyles({
+  root: {
+    position: 'absolute',
+    right: '0rem',
+    top: '0rem'
+  }
+})(IconButton)
+
 export default class CarCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      favorited: false,
       loading: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -104,6 +116,17 @@ export default class CarCard extends React.Component {
               </SearchButton>
               {this.state.loading && <SearchLoader color="secondary" size={60}/>}
             </div>
+            <FavButton>
+              {
+                this.state.favorited
+                  ? <StarIcon
+                    color="secondary"
+                  />
+                  : <StarBorderIcon
+                    color="secondary"
+                  />
+              }
+            </FavButton>
           </Card>
         </div>}
         {!this.props.car && <div style={styles.div}>
