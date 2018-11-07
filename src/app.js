@@ -34,6 +34,10 @@ export default class App extends React.Component {
         params: hash.parse(location.hash).params
       },
       car: JSON.parse(localStorage.getItem('car')),
+      lastSearch: {
+        make: null,
+        model: null
+      },
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
       listings: JSON.parse(localStorage.getItem('listings')),
       listing: JSON.parse(localStorage.getItem('listing'))
@@ -72,7 +76,7 @@ export default class App extends React.Component {
     })
   }
   pullListings(car) {
-    const searchTerm = car.make + ' ' + car.model
+    const searchTerm = car.make.concat(' ', car.model)
     navigator.geolocation.getCurrentPosition(pos => {
       const googleCoords = `${pos.coords.latitude},${pos.coords.longitude}`
       fetch(`/listings?search=${searchTerm}&latlng=${googleCoords}`, {
@@ -83,11 +87,17 @@ export default class App extends React.Component {
           location.hash = location.hash = hash.stringify({
             path: 'listings',
             params: {
-              page: 0
+              page: 0,
+              make: car.make,
+              model: car.model
             }
           })
           this.setState({
-            listings: this.paginate(listings)
+            listings: this.paginate(listings),
+            lastSearch: {
+              make: car.make,
+              model: car.model
+            }
           })
         })
     })
@@ -134,7 +144,6 @@ export default class App extends React.Component {
     }
     else if (this.state.view.path === 'listings') {
       return <ListingList
-        car={this.state.car}
         faveListings={this.state.faveListings}
         favoriteListing={this.favoriteListing}
         listings={this.state.listings}
@@ -150,7 +159,7 @@ export default class App extends React.Component {
     }
     else if (this.state.view.path === 'directsearch') {
       return (
-        <Search />
+        <Search pullListings={this.pullListings}/>
       )
     }
   }
@@ -159,7 +168,9 @@ export default class App extends React.Component {
       <Cssbaseline>
         <MuiThemeProvider theme={theme}>
           <React.Fragment>
-            <Navi/>
+            <Navi
+              lastSearch={this.state.lastSearch}
+            />
             {this.renderPage()}
           </React.Fragment>
         </MuiThemeProvider>
