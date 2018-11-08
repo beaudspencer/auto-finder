@@ -33,12 +33,21 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: JSON.parse(localStorage.getItem('car')),
+      car: {
+        body_style: 'SUV',
+        favorited: true,
+        confidence: '1.00',
+        make: 'Jeep',
+        model: 'Wrangler',
+        model_year: '2018',
+        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
+      },
       lastSearch: {
         make: null,
         model: null
       },
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
+      faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
       listing: JSON.parse(localStorage.getItem('listing'))
     }
@@ -47,6 +56,7 @@ export default class App extends React.Component {
     this.pullListings = this.pullListings.bind(this)
     this.setListing = this.setListing.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
+    this.favoriteCar = this.favoriteCar.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
@@ -56,9 +66,20 @@ export default class App extends React.Component {
     })
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('car', JSON.stringify(this.state.car))
+      localStorage.setItem('faveCars', JSON.stringify(this.state.faveCars))
       localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
+    })
+  }
+  favoriteCar(car) {
+    const faveCars = this.state.faveCars
+      ? this.state.faveCars.slice()
+      : []
+    faveCars.push(car)
+    this.setState({
+      faveCars: this.paginate(faveCars),
+      car: car
     })
   }
   favoriteListing(listing) {
@@ -117,9 +138,10 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
+        const fullData = Object.assign({}, {favorited: false}, data)
         location.hash = 'car'
         this.setState({
-          car: data
+          car: fullData
         })
       })
   }
@@ -133,6 +155,7 @@ export default class App extends React.Component {
     }
     else if (this.state.view.path === 'car') {
       return <CarCard
+        favoriteCar={this.favoriteCar}
         car={this.state.car}
         search={this.pullListings}
       />

@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardActions,
   withStyles,
   Button,
   CircularProgress
@@ -18,10 +17,17 @@ const styles = {
   }
 }
 
+const BottomField = withStyles({
+  root: {
+    marginBottom: '4rem'
+  }
+})(TextField)
+
 const SearchButton = withStyles({
   root: {
-    transform: 'translate(25%)',
-    marginBottom: '1rem'
+    position: 'absolute',
+    left: '2rem',
+    bottom: '1rem'
   }
 })(Button)
 
@@ -37,8 +43,8 @@ const SearchCard = withStyles({
 const SearchLoader = withStyles({
   root: {
     position: 'absolute',
-    left: '1.75rem',
-    bottom: '1.4rem',
+    left: '1.85rem',
+    bottom: '0.85rem',
     zIndex: '1'
   }
 })(CircularProgress)
@@ -92,7 +98,7 @@ export default class Search extends React.Component {
           <div
             style={styles.inputs}
           >
-            <TextField
+            <BottomField
               onChange={this.handleChange}
               fullWidth
               id="model"
@@ -109,8 +115,6 @@ export default class Search extends React.Component {
               size={60}
             />
           }
-        </CardContent>
-        <CardActions>
           <SearchButton
             variant="fab"
             color="primary"
@@ -118,7 +122,7 @@ export default class Search extends React.Component {
           >
             <SearchIcon/>
           </SearchButton>
-        </CardActions>
+        </CardContent>
       </SearchCard>
     )
   }
