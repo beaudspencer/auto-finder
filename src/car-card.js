@@ -60,7 +60,7 @@ export default class CarCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      favorited: false,
+      favorited: this.props.car.favorited,
       loading: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -76,7 +76,9 @@ export default class CarCard extends React.Component {
     this.setState({
       favorited: true
     })
-    this.props.favoriteCar(this.props.car)
+    const favedCar = Object.assign({}, this.props.car)
+    favedCar.favorited = true
+    this.props.favoriteCar(favedCar)
   }
   render() {
     return (
