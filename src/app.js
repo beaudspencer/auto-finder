@@ -35,6 +35,7 @@ export default class App extends React.Component {
       },
       car: {
         body_style: 'SUV',
+        favorited: true,
         confidence: '1.00',
         make: 'Jeep',
         model: 'Wrangler',
@@ -46,7 +47,7 @@ export default class App extends React.Component {
         model: null
       },
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
-      faveCars: [],
+      faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
       listing: JSON.parse(localStorage.getItem('listing'))
     }
@@ -65,6 +66,7 @@ export default class App extends React.Component {
     })
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('car', JSON.stringify(this.state.car))
+      localStorage.setItem('faveCars', JSON.stringify(this.state.faveCars))
       localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
@@ -76,7 +78,8 @@ export default class App extends React.Component {
       : []
     faveCars.push(car)
     this.setState({
-      faveCars: this.paginate(faveCars)
+      faveCars: this.paginate(faveCars),
+      car: car
     })
   }
   favoriteListing(listing) {
@@ -135,9 +138,10 @@ export default class App extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
+        const fullData = Object.assign({}, {favorited: false}, data)
         location.hash = 'car'
         this.setState({
-          car: data
+          car: fullData
         })
       })
   }
