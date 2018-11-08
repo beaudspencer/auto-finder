@@ -52,6 +52,14 @@ export default class Navi extends React.Component {
         }
       })
     }
+    else if (id === 'listings') {
+      location.hash = hash.stringify({
+        path: id,
+        params: {
+          page: 0
+        }
+      })
+    }
     else {
       location.hash = id
     }
