@@ -64,12 +64,19 @@ export default class CarCard extends React.Component {
       loading: false
     }
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   handleSearch() {
     this.props.search(this.props.car)
     this.setState({
       loading: true
     })
+  }
+  handleClick() {
+    this.setState({
+      favorited: true
+    })
+    this.props.favoriteCar(this.props.car)
   }
   render() {
     return (

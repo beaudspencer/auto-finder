@@ -55,6 +55,7 @@ export default class App extends React.Component {
     this.pullListings = this.pullListings.bind(this)
     this.setListing = this.setListing.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
+    this.favoriteCar = this.favoriteCar.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
@@ -67,6 +68,15 @@ export default class App extends React.Component {
       localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
+    })
+  }
+  favoriteCar(car) {
+    const faveCars = this.state.faveCars
+      ? this.state.faveCars.slice()
+      : []
+    faveCars.push(car)
+    this.setState({
+      faveCars: this.paginate(faveCars)
     })
   }
   favoriteListing(listing) {
@@ -141,6 +151,7 @@ export default class App extends React.Component {
     }
     else if (this.state.view.path === 'car') {
       return <CarCard
+        favoriteCar={this.favoriteCar}
         car={this.state.car}
         search={this.pullListings}
       />
