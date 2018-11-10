@@ -11,6 +11,7 @@ import ListingList from './listing-list'
 import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 import Search from './search'
+import CarList from './car-list'
 
 const theme = createMuiTheme({
   palette: {
@@ -183,6 +184,14 @@ export default class App extends React.Component {
     else if (this.state.view.path === 'directsearch') {
       return (
         <Search pullListings={this.pullListings}/>
+      )
+    }
+    else if (this.state.view.path === 'faveCars') {
+      return (
+        <CarList
+          page={parseInt(this.state.view.params.page, 10)}
+          cars={this.state.faveCars}
+        />
       )
     }
   }
