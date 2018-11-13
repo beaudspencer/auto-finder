@@ -189,6 +189,7 @@ export default class App extends React.Component {
     else if (this.state.view.path === 'favecars') {
       return (
         <CarList
+          pullListings={this.pullListings}
           page={parseInt(this.state.view.params.page, 10)}
           cars={this.state.faveCars}
         />
