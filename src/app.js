@@ -11,6 +11,7 @@ import ListingList from './listing-list'
 import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 import Search from './search'
+import CarList from './car-list'
 
 const theme = createMuiTheme({
   palette: {
@@ -35,7 +36,7 @@ export default class App extends React.Component {
       },
       car: {
         body_style: 'SUV',
-        favorited: true,
+        favorited: false,
         confidence: '1.00',
         make: 'Jeep',
         model: 'Wrangler',
@@ -183,6 +184,15 @@ export default class App extends React.Component {
     else if (this.state.view.path === 'directsearch') {
       return (
         <Search pullListings={this.pullListings}/>
+      )
+    }
+    else if (this.state.view.path === 'favecars') {
+      return (
+        <CarList
+          pullListings={this.pullListings}
+          page={parseInt(this.state.view.params.page, 10)}
+          cars={this.state.faveCars}
+        />
       )
     }
   }

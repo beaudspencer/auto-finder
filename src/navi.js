@@ -34,7 +34,7 @@ export default class Navi extends React.Component {
   }
   handleClick(event) {
     const id = event.target.closest('[id]').id
-    if (id === 'favlistings') {
+    if (id === 'favlistings' || id === 'favecars') {
       location.hash = hash.stringify({
         path: id,
         params: {
@@ -120,6 +120,15 @@ export default class Navi extends React.Component {
                 >
                   <ListItemText>
                     Car
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={this.handleClick}
+                  id="favecars"
+                >
+                  <ListItemText>
+                    Favorite Cars
                   </ListItemText>
                 </ListItem>
                 <ListItem
