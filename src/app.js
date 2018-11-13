@@ -36,7 +36,7 @@ export default class App extends React.Component {
       },
       car: {
         body_style: 'SUV',
-        favorited: true,
+        favorited: false,
         confidence: '1.00',
         make: 'Jeep',
         model: 'Wrangler',
@@ -186,7 +186,7 @@ export default class App extends React.Component {
         <Search pullListings={this.pullListings}/>
       )
     }
-    else if (this.state.view.path === 'faveCars') {
+    else if (this.state.view.path === 'favecars') {
       return (
         <CarList
           page={parseInt(this.state.view.params.page, 10)}
