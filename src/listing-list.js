@@ -65,6 +65,11 @@ export default class ListingList extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
   }
+  filterBy(filter) {
+    this.setState({
+      filterBy: filter
+    })
+  }
   favoriteListing(listing) {
     this.props.favoriteListing(listing)
   }
