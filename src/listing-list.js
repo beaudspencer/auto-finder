@@ -4,6 +4,7 @@ import ArrowForward from '@material-ui/icons/ArrowForward'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Listing from './listing'
 import hash from './hash'
+import FilterMenu from './filter-menu'
 
 const styles = {
   listItem: {
@@ -57,6 +58,9 @@ const CurrentPage = withStyles({
 export default class ListingList extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      filterBy: null
+    }
     this.query = hash.parse(location.hash).params
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
@@ -93,7 +97,14 @@ export default class ListingList extends React.Component {
     return false
   }
   renderList() {
-    return (this.props.listings[this.props.page].map(listing => {
+    return (this.props.listings[this.props.page].filter(listing => {
+      if (this.state.filterBy === 'hasPic') {
+        return listing.hasPic
+      }
+      else {
+        return true
+      }
+    }).map(listing => {
       let favorited = this.props.faveListings
         ? this.checkFavorite(this.props.faveListings, listing)
         : false
@@ -165,6 +176,9 @@ export default class ListingList extends React.Component {
     return (
       <React.Fragment>
         {this.renderHeading()}
+        <FilterMenu
+          filterBy={this.filterBy}
+        />
         {
           this.props.listings &&
           <React.Fragment>
