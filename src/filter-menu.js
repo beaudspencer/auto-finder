@@ -19,7 +19,7 @@ export default class FilterMenu extends React.Component {
 
   handleClose(event) {
     this.setState({ anchorEl: null })
-    this.filterBy(event.target.id)
+    this.props.filterBy(event.target.id)
   }
 
   render() {
