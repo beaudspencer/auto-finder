@@ -4,16 +4,22 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 export default class FilterMenu extends React.Component {
-  state = {
-    anchorEl: null
+  constructor(props) {
+    super(props)
+    this.state = {
+      anchorEl: null
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
-  handleClick = event => {
+  handleClick(event) {
     this.setState({ anchorEl: event.currentTarget })
   }
 
-  handleClose = () => {
+  handleClose(event) {
     this.setState({ anchorEl: null })
+    this.filterBy(event.target.id)
   }
 
   render() {
@@ -34,7 +40,7 @@ export default class FilterMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Has Picture</MenuItem>
+          <MenuItem id="pic" onClick={this.handleClose}>Has Picture</MenuItem>
         </Menu>
       </div>
     )
