@@ -3,6 +3,14 @@ import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
+const styles = {
+  root: {
+    width: '92%',
+    maxWidth: '38rem',
+    margin: '0 auto'
+  }
+}
+
 export default class FilterMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -26,13 +34,13 @@ export default class FilterMenu extends React.Component {
     const { anchorEl } = this.state
 
     return (
-      <div>
+      <div style={styles.root}>
         <Button
           aria-owns={anchorEl ? 'FilterBy' : undefined}
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          Open Menu
+          Filter By
         </Button>
         <Menu
           id="simple-menu"
@@ -40,6 +48,7 @@ export default class FilterMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
+          <MenuItem id="none" onClick={this.handleClose}>None</MenuItem>
           <MenuItem id="pic" onClick={this.handleClose}>Has Picture</MenuItem>
         </Menu>
       </div>
