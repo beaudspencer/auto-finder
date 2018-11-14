@@ -64,6 +64,7 @@ export default class ListingList extends React.Component {
     this.query = hash.parse(location.hash).params
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
+    this.filterBy = this.filterBy.bind(this)
   }
   filterBy(filter) {
     this.setState({
@@ -103,7 +104,7 @@ export default class ListingList extends React.Component {
   }
   renderList() {
     return (this.props.listings[this.props.page].filter(listing => {
-      if (this.state.filterBy === 'hasPic') {
+      if (this.state.filterBy === 'pic') {
         return listing.hasPic
       }
       else {
