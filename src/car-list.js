@@ -110,7 +110,7 @@ export default class CarList extends React.Component {
               >
                 <ArrowBack/>
               </PrevButton>}
-          {this.props.page + 1 < this.props.listings.length &&
+          {this.props.page + 1 < this.props.cars.length &&
               <NextButton
                 id="next"
                 onClick={this.handleClick}
