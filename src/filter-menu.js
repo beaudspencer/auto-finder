@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Filter from '@material-ui/icons/FilterList'
 
 const styles = {
   root: {
@@ -40,7 +41,7 @@ export default class FilterMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          Filter By
+          <Filter />
         </Button>
         <Menu
           id="simple-menu"
