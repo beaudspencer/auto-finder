@@ -68,6 +68,12 @@ export default class Listing extends React.Component {
     })
     this.props.favoriteListing(this.props.listing)
   }
+  unfavoriteListing() {
+    this.setState({
+      favorited: false
+    })
+    this.props.unfavoriteListing(this.props.listing)
+  }
   render() {
     return (
       <FullCard>
