@@ -191,6 +191,7 @@ export default class App extends React.Component {
         page={parseInt(this.state.view.params.page, 10)}
         listings={this.state.faveListings}
         favorites={true}
+        unFavorite={this.unfavoriteListing}
       />
     }
     else if (this.state.view.path === 'directsearch') {
