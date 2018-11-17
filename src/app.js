@@ -58,6 +58,7 @@ export default class App extends React.Component {
     this.setListing = this.setListing.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
     this.favoriteCar = this.favoriteCar.bind(this)
+    this.unfavoriteListing = this.unfavoriteListing.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
