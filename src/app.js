@@ -92,6 +92,14 @@ export default class App extends React.Component {
       faveListings: this.paginate(favorited)
     })
   }
+  unfavoriteListing(page, index) {
+    const before = this.state.faveListings.flat().slice(0, index)
+    const after = this.state.faveListings.flat().slice(index)
+    const newFaves = [...before, ...after]
+    this.setState({
+      faveListings: this.paginate(newFaves)
+    })
+  }
   setListing(listing) {
     this.setState({
       listing: listing
