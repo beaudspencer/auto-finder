@@ -107,6 +107,15 @@ export default class ListingList extends React.Component {
     return false
   }
   renderList() {
+    if (this.props.listings.length < 1) {
+      return <ListingsTitle
+        variant="h6"
+        component="h3"
+        color="inherit"
+      >
+        No Listings Have Been Favorited
+      </ListingsTitle>
+    }
     return (this.props.listings[this.props.page].filter(listing => {
       if (this.state.filterBy === 'pic') {
         return listing.hasPic
