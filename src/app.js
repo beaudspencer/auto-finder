@@ -94,11 +94,11 @@ export default class App extends React.Component {
     })
   }
   unfavoriteListing(unListing) {
-    const index = this.state.faveListings.flat().find(listing => {
+    const index = this.state.faveListings.flat().findIndex(listing => {
       return listing.pid === unListing.pid
     })
     const before = this.state.faveListings.flat().slice(0, index)
-    const after = this.state.faveListings.flat().slice(index)
+    const after = this.state.faveListings.flat().slice((index + 1))
     const newFaves = [...before, ...after]
     this.setState({
       faveListings: this.paginate(newFaves)
@@ -191,7 +191,7 @@ export default class App extends React.Component {
         page={parseInt(this.state.view.params.page, 10)}
         listings={this.state.faveListings}
         favorites={true}
-        unFavorite={this.unfavoriteListing}
+        unfavorite={this.unfavoriteListing}
       />
     }
     else if (this.state.view.path === 'directsearch') {
