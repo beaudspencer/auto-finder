@@ -128,7 +128,7 @@ export default class ListingList extends React.Component {
               listing={listing}
               favorited={favorited}
               favoriteListing={this.favoriteListing}
-              unfavoriteListing={this.unfavorite}
+              unfavorite={this.unfavorite}
             />
           </ListItem>
         </div>
