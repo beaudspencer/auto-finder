@@ -65,6 +65,7 @@ export default class ListingList extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
     this.filterBy = this.filterBy.bind(this)
+    this.unfavorite = this.unfavorite.bind(this)
   }
   filterBy(filter) {
     this.setState({
@@ -73,6 +74,9 @@ export default class ListingList extends React.Component {
   }
   favoriteListing(listing) {
     this.props.favoriteListing(listing)
+  }
+  unfavorite(listing) {
+    this.props.unfavorite(listing)
   }
   handleClick(event) {
     window.scrollTo(0, 0)
@@ -103,6 +107,15 @@ export default class ListingList extends React.Component {
     return false
   }
   renderList() {
+    if (this.props.listings.length < 1) {
+      return <ListingsTitle
+        variant="h6"
+        component="h3"
+        color="inherit"
+      >
+        No Listings Have Been Favorited
+      </ListingsTitle>
+    }
     return (this.props.listings[this.props.page].filter(listing => {
       if (this.state.filterBy === 'pic') {
         return listing.hasPic
@@ -124,6 +137,7 @@ export default class ListingList extends React.Component {
               listing={listing}
               favorited={favorited}
               favoriteListing={this.favoriteListing}
+              unfavorite={this.unfavorite}
             />
           </ListItem>
         </div>

@@ -53,6 +53,7 @@ export default class Listing extends React.Component {
     }
     this.pullDetails = this.pullDetails.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   pullDetails() {
     location.hash = hash.stringify({
@@ -62,11 +63,25 @@ export default class Listing extends React.Component {
       }
     })
   }
+  handleClick() {
+    if (this.state.favorited) {
+      this.unfavoriteListing()
+    }
+    else {
+      this.favoriteListing()
+    }
+  }
   favoriteListing() {
     this.setState({
       favorited: true
     })
     this.props.favoriteListing(this.props.listing)
+  }
+  unfavoriteListing() {
+    this.setState({
+      favorited: false
+    })
+    this.props.unfavorite(this.props.listing)
   }
   render() {
     return (
@@ -117,8 +132,7 @@ export default class Listing extends React.Component {
             <InfoIcon />
           </DetailButton>
           <StarIconButton
-            onClick={this.favoriteListing}
-            disabled={this.state.favorited}
+            onClick={this.handleClick}
           >
             {
               this.state.favorited

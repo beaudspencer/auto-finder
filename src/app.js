@@ -58,6 +58,7 @@ export default class App extends React.Component {
     this.setListing = this.setListing.bind(this)
     this.favoriteListing = this.favoriteListing.bind(this)
     this.favoriteCar = this.favoriteCar.bind(this)
+    this.unfavoriteListing = this.unfavoriteListing.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
@@ -90,6 +91,17 @@ export default class App extends React.Component {
     favorited.push(listing)
     this.setState({
       faveListings: this.paginate(favorited)
+    })
+  }
+  unfavoriteListing(unListing) {
+    const index = this.state.faveListings.flat().findIndex(listing => {
+      return listing.pid === unListing.pid
+    })
+    const before = this.state.faveListings.flat().slice(0, index)
+    const after = this.state.faveListings.flat().slice((index + 1))
+    const newFaves = [...before, ...after]
+    this.setState({
+      faveListings: this.paginate(newFaves)
     })
   }
   setListing(listing) {
@@ -179,6 +191,7 @@ export default class App extends React.Component {
         page={parseInt(this.state.view.params.page, 10)}
         listings={this.state.faveListings}
         favorites={true}
+        unfavorite={this.unfavoriteListing}
       />
     }
     else if (this.state.view.path === 'directsearch') {
