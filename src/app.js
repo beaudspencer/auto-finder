@@ -102,7 +102,7 @@ export default class App extends React.Component {
     const after = this.state.faveCars.flat().slice((index + 1))
     const newFaves = [...before, ...after]
     this.setState({
-      faveListings: this.paginate(newFaves)
+      faveCars: this.paginate(newFaves)
     })
   }
   unfavoriteListing(unListing) {

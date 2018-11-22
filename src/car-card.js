@@ -132,7 +132,6 @@ export default class CarCard extends React.Component {
               {this.state.loading && <SearchLoader color="secondary" size={60}/>}
             </div>
             <FavButton
-              disabled={this.state.favorited}
               onClick={this.handleClick}
             >
               {
