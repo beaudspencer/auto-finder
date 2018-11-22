@@ -59,6 +59,7 @@ export default class App extends React.Component {
     this.favoriteListing = this.favoriteListing.bind(this)
     this.favoriteCar = this.favoriteCar.bind(this)
     this.unfavoriteListing = this.unfavoriteListing.bind(this)
+    this.unfavoriteCar = this.unfavoriteCar.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', event => {
@@ -91,6 +92,17 @@ export default class App extends React.Component {
     favorited.push(listing)
     this.setState({
       faveListings: this.paginate(favorited)
+    })
+  }
+  unfavoriteCar(unCar) {
+    const index = this.state.faveCars.flat().findIndex(car => {
+      return car.model === unCar.model
+    })
+    const before = this.state.faveCars.flat().slice(0, index)
+    const after = this.state.faveCars.flat().slice((index + 1))
+    const newFaves = [...before, ...after]
+    this.setState({
+      faveListings: this.paginate(newFaves)
     })
   }
   unfavoriteListing(unListing) {
