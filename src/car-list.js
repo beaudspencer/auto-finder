@@ -96,6 +96,7 @@ export default class CarList extends React.Component {
                   <CarCard
                     search={this.props.pullListings}
                     car={car}
+                    unfavorite={this.props.unfavorite}
                   />
                 </ListItem>
               )
