@@ -56,6 +56,36 @@ export default class CarList extends React.Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.renderList = this.renderList.bind(this)
+  }
+  renderList() {
+    if (!this.props.car) {
+      return (
+        <Header
+          variant="h5"
+          component="h3"
+        >
+          No cars have been favorited
+        </Header>
+      )
+    }
+    else {
+      return (
+        this.props.cars[this.props.page].map(car => {
+          return (
+            <ListItem
+              key={car.make.concat(car.model, car.model_year)}
+            >
+              <CarCard
+                search={this.props.pullListings}
+                car={car}
+                unfavorite={this.props.unfavorite}
+              />
+            </ListItem>
+          )
+        })
+      )
+    }
   }
   handleClick(event) {
     window.scrollTo(0, 0)
@@ -88,18 +118,7 @@ export default class CarList extends React.Component {
         </Header>
         <List>
           {
-            this.props.cars[this.props.page].map(car => {
-              return (
-                <ListItem
-                  key={car.make.concat(car.model, car.model_year)}
-                >
-                  <CarCard
-                    search={this.props.pullListings}
-                    car={car}
-                  />
-                </ListItem>
-              )
-            })
+            this.renderList()
           }
         </List>
         <div style={styles.container}>

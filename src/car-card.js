@@ -73,12 +73,18 @@ export default class CarCard extends React.Component {
     })
   }
   handleClick() {
-    this.setState({
-      favorited: true
-    })
     const favedCar = Object.assign({}, this.props.car)
-    favedCar.favorited = true
-    this.props.favoriteCar(favedCar)
+    if (this.state.favorited) {
+      favedCar.favorited = false
+      this.props.unfavorite(favedCar)
+    }
+    else {
+      favedCar.favorited = true
+      this.props.favoriteCar(favedCar)
+    }
+    this.setState({
+      favorited: !this.state.favorited
+    })
   }
   render() {
     return (
@@ -126,7 +132,6 @@ export default class CarCard extends React.Component {
               {this.state.loading && <SearchLoader color="secondary" size={60}/>}
             </div>
             <FavButton
-              disabled={this.state.favorited}
               onClick={this.handleClick}
             >
               {
