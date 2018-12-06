@@ -66,6 +66,7 @@ export default class App extends React.Component {
       localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
+      localStorage.setItem('recents', JSON.stringify(this.state.recents))
     })
   }
   updateRecents(newRecent) {
