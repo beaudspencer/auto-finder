@@ -43,7 +43,7 @@ export default class App extends React.Component {
       faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
       listing: JSON.parse(localStorage.getItem('listing')),
-      recents: []
+      recents: JSON.parse(localStorage.getItem('recents'))
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
