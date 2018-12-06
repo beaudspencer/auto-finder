@@ -34,15 +34,7 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: {
-        body_style: 'SUV',
-        favorited: false,
-        confidence: '1.00',
-        make: 'Jeep',
-        model: 'Wrangler',
-        model_year: '2018',
-        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
-      },
+      car: null,
       lastSearch: {
         make: null,
         model: null
@@ -50,7 +42,8 @@ export default class App extends React.Component {
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
       faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
-      listing: JSON.parse(localStorage.getItem('listing'))
+      listing: JSON.parse(localStorage.getItem('listing')),
+      recents: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
