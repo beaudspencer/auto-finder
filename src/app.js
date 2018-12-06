@@ -68,6 +68,21 @@ export default class App extends React.Component {
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
     })
   }
+  updateRecents(newRecent) {
+    const recents = this.state.recents
+      ? this.state.recents.slice()
+      : []
+    if (recents.length < 3) {
+      recents.unshift(newRecent)
+    }
+    else if (recents.length === 3) {
+      recents.pop()
+      recents.unshift(newRecent)
+    }
+    this.setState({
+      recents: recents
+    })
+  }
   favoriteCar(car) {
     const faveCars = this.state.faveCars
       ? this.state.faveCars.slice()
