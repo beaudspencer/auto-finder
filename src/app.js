@@ -12,6 +12,7 @@ import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 import Search from './search'
 import CarList from './car-list'
+import Recents from './recents'
 
 const theme = createMuiTheme({
   palette: {
@@ -35,10 +36,7 @@ export default class App extends React.Component {
         params: hash.parse(location.hash).params
       },
       car: null,
-      lastSearch: {
-        make: null,
-        model: null
-      },
+      lastSearch: JSON.parse(localStorage.getItem('lastSearch')),
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
       faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
@@ -67,6 +65,7 @@ export default class App extends React.Component {
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
       localStorage.setItem('recents', JSON.stringify(this.state.recents))
+      localStorage.setItem('lastSearch', JSON.stringify(this.state.lastSearch))
     })
   }
   updateRecents(newRecent) {
@@ -182,9 +181,14 @@ export default class App extends React.Component {
   renderPage() {
     if (this.state.view.path === 'uploader') {
       return (
-        <Uploader
-          handleSubmit={this.handleSubmit}
-        />
+        <React.Fragment>
+          <Uploader
+            handleSubmit={this.handleSubmit}
+          />
+          <Recents
+            recents={this.state.recents}
+          />
+        </React.Fragment>
       )
     }
     else if (this.state.view.path === 'car') {
