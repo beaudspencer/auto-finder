@@ -1,10 +1,13 @@
 import React from 'react'
 import {
   Typography,
-  withStyles
+  withStyles,
+  IconButton
 } from '@material-ui/core'
 import RadioButtonChecked from '@material-ui/icons/RadioButtonChecked'
 import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
+import ArrowForward from '@material-ui/icons/ArrowForward'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 import RecentCard from './recent-card'
 
 const styles = {
@@ -13,6 +16,12 @@ const styles = {
     maxWidth: '435px',
     margin: '1rem auto',
     textAlign: 'center'
+  },
+  recents: {
+    textAlign: 'center',
+    position: 'relative',
+    maxWidth: '435px',
+    margin: '0 auto'
   }
 }
 
@@ -22,6 +31,29 @@ const NoRecents = withStyles({
     margin: '0 auto'
   }
 })(Typography)
+
+const Header = withStyles({
+  root: {
+    marginBottom: '1.5rem',
+    textAlign: 'center'
+  }
+})(Typography)
+
+const NexButton = withStyles({
+  root: {
+    position: 'absolute',
+    bottom: '50%',
+    right: '1%'
+  }
+})(IconButton)
+
+const PrevButton = withStyles({
+  root: {
+    position: 'absolute',
+    bottom: '50%',
+    left: '1%'
+  }
+})(IconButton)
 
 export default class Recents extends React.Component {
   constructor(props) {
@@ -45,10 +77,24 @@ export default class Recents extends React.Component {
     }
     return (
       <div>
-        <div>
+        <Header
+          component="h4"
+          variant="h6"
+        >
+          Recent Searches:
+        </Header>
+        <div
+          style={styles.recents}
+        >
+          <PrevButton>
+            <ArrowBack/>
+          </PrevButton>
           <RecentCard
             car={recents[current]}
           />
+          <NexButton>
+            <ArrowForward/>
+          </NexButton>
         </div>
         <div
           style={styles.buttons}
