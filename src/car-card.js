@@ -60,7 +60,7 @@ export default class CarCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      favorited: this.props.car.favorited,
+      favorited: this.props.car ? this.props.car.favorited : false,
       loading: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -87,6 +87,18 @@ export default class CarCard extends React.Component {
     })
   }
   render() {
+    if (!this.props.car) {
+      return (
+        <div style={styles.div}>
+          <Typography
+            variant="h6"
+            component="h2"
+          >
+            You have yet to find a car this session
+          </Typography>
+        </div>
+      )
+    }
     return (
       <React.Fragment>
         {this.props.car && <div style={styles.div}>
@@ -145,14 +157,6 @@ export default class CarCard extends React.Component {
               }
             </FavButton>
           </Card>
-        </div>}
-        {!this.props.car && <div style={styles.div}>
-          <Typography
-            variant="h6"
-            component="h2"
-          >
-            You have yet to find a car this session
-          </Typography>
         </div>}
       </React.Fragment>
     )
