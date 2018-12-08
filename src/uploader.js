@@ -9,7 +9,7 @@ import Load from './load'
 
 const styles = {
   container: {
-    marginTop: '5rem'
+    marginTop: '1.5rem'
   },
   button: {
     margin: '0 auto',
@@ -28,7 +28,7 @@ const CaptureCard = withStyles({
   root: {
     width: '66%',
     maxWidth: '28rem',
-    margin: '60px auto'
+    margin: '1.5rem auto'
   }
 })(Card)
 
