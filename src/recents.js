@@ -61,6 +61,20 @@ export default class Recents extends React.Component {
     this.state = {
       current: 0
     }
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick(event) {
+    const id = event.target.closest('[id]').id
+    if (id === 'next' && this.state.current < this.props.recents.length) {
+      this.setState({
+        current: this.state.current + 1
+      })
+    }
+    else if (id === 'prev' && this.state.current > 0 && this.state.props.length > 1) {
+      this.setState({
+        current: this.state.current - 1
+      })
+    }
   }
   render() {
     const { recents } = this.props
@@ -86,13 +100,19 @@ export default class Recents extends React.Component {
         <div
           style={styles.recents}
         >
-          <PrevButton>
+          <PrevButton
+            onClick={this.handleClick}
+            id="prev"
+          >
             <ArrowBack/>
           </PrevButton>
           <RecentCard
             car={recents[current]}
           />
-          <NexButton>
+          <NexButton
+            onClick={this.handleClick}
+            id="next"
+          >
             <ArrowForward/>
           </NexButton>
         </div>
