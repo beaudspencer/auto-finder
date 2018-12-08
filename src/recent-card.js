@@ -9,9 +9,10 @@ import {
 
 const RecentsCard = withStyles({
   root: {
+    display: 'inline-block',
     margin: '0 auto',
-    width: '66%',
-    maxWidth: '435px'
+    width: '50%',
+    maxWidth: '300px'
   }
 })(Card)
 
