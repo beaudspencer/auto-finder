@@ -4,12 +4,15 @@ import {
   withStyles
 } from '@material-ui/core'
 import RadioButtonChecked from '@material-ui/icons/RadioButtonChecked'
-import RadioButtonunChecked from '@material-ui/icons/RadioButtonUnchecked'
+import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
+import RecentCard from './recent-card'
 
 const styles = {
-  progress: {
-    display: 'inline-block',
-    width: 'calc(100% / 3)'
+  buttons: {
+    width: '92%',
+    maxWidth: '435px',
+    margin: '1rem auto',
+    textAlign: 'center'
   }
 }
 
@@ -28,10 +31,13 @@ export default class Recents extends React.Component {
     }
   }
   render() {
-    if (!this.props.recents || this.props.recents.length) {
+    const { recents } = this.props
+    const { current } = this.state
+    if (!this.props.recents || this.props.recents.length < 1) {
       return (
         <NoRecents
-          variant="h4"
+          component="h4"
+          variant="h6"
         >
         No Recent Searches
         </NoRecents>
@@ -40,15 +46,19 @@ export default class Recents extends React.Component {
     return (
       <div>
         <div>
+          <RecentCard
+            car={recents[current]}
+          />
         </div>
-        <div>
+        <div
+          style={styles.buttons}
+        >
           {
             this.props.recents.map((car, index) => {
               if (index === this.state.current) {
                 return (
                   <div
                     key={index}
-                    style={styles.progress}
                   >
                     <RadioButtonChecked/>
                   </div>
@@ -57,9 +67,8 @@ export default class Recents extends React.Component {
               return (
                 <div
                   key={index}
-                  style={styles.progress}
                 >
-                  <RadioButtonunChecked/>
+                  <RadioButtonUnchecked/>
                 </div>
               )
             })
