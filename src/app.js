@@ -4,7 +4,6 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { createMuiTheme } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import orange from '@material-ui/core/colors/orange'
-import Uploader from './uploader'
 import CarCard from './car-card'
 import Navi from './navi'
 import ListingList from './listing-list'
@@ -12,7 +11,7 @@ import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 import Search from './search'
 import CarList from './car-list'
-import Recents from './recents'
+import UploadContainer from './upload-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -172,6 +171,7 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         const fullData = Object.assign({}, {favorited: false}, data)
+        this.updateRecents(fullData)
         location.hash = 'car'
         this.setState({
           car: fullData
@@ -181,14 +181,10 @@ export default class App extends React.Component {
   renderPage() {
     if (this.state.view.path === 'uploader') {
       return (
-        <React.Fragment>
-          <Uploader
-            handleSubmit={this.handleSubmit}
-          />
-          <Recents
-            recents={this.state.recents}
-          />
-        </React.Fragment>
+        <UploadContainer
+          recents={this.state.recents}
+          handleSubmit={this.handleSubmit}
+        />
       )
     }
     else if (this.state.view.path === 'car') {
