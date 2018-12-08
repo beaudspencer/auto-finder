@@ -69,6 +69,7 @@ export default class Uploader extends React.Component {
     this.setState({
       isLoading: true
     })
+    this.props.setLoad()
     const canvas = this.canvas.current
     const player = this.video.current
     const context = canvas.getContext('2d')
