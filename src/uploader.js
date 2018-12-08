@@ -36,11 +36,16 @@ export default class Uploader extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
+      canvasSize: {
+        height: 0,
+        width: 0
+      }
     }
     this.video = React.createRef()
     this.canvas = React.createRef()
     this.handleCapture = this.handleCapture.bind(this)
+    this.startCapture = this.startCapture.bind(this)
   }
   startCapture() {
     const constraints = {
@@ -51,6 +56,13 @@ export default class Uploader extends React.Component {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         this.video.current.srcObject = stream
+        const settings = stream.getVideoTracks()[0].getSettings()
+        this.setState({
+          canvasSize: {
+            height: settings.height,
+            width: settings.width
+          }
+        })
       })
   }
   handleCapture() {
@@ -103,8 +115,8 @@ export default class Uploader extends React.Component {
                 <canvas
                   ref={this.canvas}
                   id="canvas"
-                  width="4000"
-                  height="3000"
+                  width={this.state.canvasSize.width}
+                  height={this.state.canvasSize.height}
                 ></canvas>
               </div>
             </CardContent>
