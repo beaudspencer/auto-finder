@@ -42,7 +42,7 @@ export default class Navi extends React.Component {
         }
       })
     }
-    else if (this.props.lastSearch.make && id === 'listings') {
+    else if (this.props.lastSearch && id === 'listings') {
       location.hash = hash.stringify({
         path: id,
         params: {

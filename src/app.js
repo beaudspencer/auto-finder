@@ -4,7 +4,6 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { createMuiTheme } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import orange from '@material-ui/core/colors/orange'
-import Uploader from './uploader'
 import CarCard from './car-card'
 import Navi from './navi'
 import ListingList from './listing-list'
@@ -12,6 +11,7 @@ import ListingDetailsContainer from './listing-details-container'
 import hash from './hash'
 import Search from './search'
 import CarList from './car-list'
+import UploadContainer from './upload-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -34,23 +34,13 @@ export default class App extends React.Component {
         path: hash.parse(location.hash).path,
         params: hash.parse(location.hash).params
       },
-      car: {
-        body_style: 'SUV',
-        favorited: false,
-        confidence: '1.00',
-        make: 'Jeep',
-        model: 'Wrangler',
-        model_year: '2018',
-        imageURL: 'https://cdn.motor1.com/images/mgl/kgewn/s3/2017-jeep-wrangler.jpg'
-      },
-      lastSearch: {
-        make: null,
-        model: null
-      },
+      car: null,
+      lastSearch: JSON.parse(localStorage.getItem('lastSearch')),
       faveListings: JSON.parse(localStorage.getItem('faveListings')),
       faveCars: JSON.parse(localStorage.getItem('faveCars')),
       listings: JSON.parse(localStorage.getItem('listings')),
-      listing: JSON.parse(localStorage.getItem('listing'))
+      listing: JSON.parse(localStorage.getItem('listing')),
+      recents: JSON.parse(localStorage.getItem('recents'))
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderPage = this.renderPage.bind(this)
@@ -73,6 +63,23 @@ export default class App extends React.Component {
       localStorage.setItem('faveListings', JSON.stringify(this.state.faveListings))
       localStorage.setItem('listing', JSON.stringify(this.state.listing))
       localStorage.setItem('listings', JSON.stringify(this.state.listings))
+      localStorage.setItem('recents', JSON.stringify(this.state.recents))
+      localStorage.setItem('lastSearch', JSON.stringify(this.state.lastSearch))
+    })
+  }
+  updateRecents(newRecent) {
+    const recents = this.state.recents
+      ? this.state.recents.slice()
+      : []
+    if (recents.length < 3) {
+      recents.unshift(newRecent)
+    }
+    else if (recents.length === 3) {
+      recents.pop()
+      recents.unshift(newRecent)
+    }
+    this.setState({
+      recents: recents
     })
   }
   favoriteCar(car) {
@@ -164,6 +171,7 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         const fullData = Object.assign({}, {favorited: false}, data)
+        this.updateRecents(fullData)
         location.hash = 'car'
         this.setState({
           car: fullData
@@ -173,7 +181,9 @@ export default class App extends React.Component {
   renderPage() {
     if (this.state.view.path === 'uploader') {
       return (
-        <Uploader
+        <UploadContainer
+          search={this.pullListings}
+          recents={this.state.recents}
           handleSubmit={this.handleSubmit}
         />
       )

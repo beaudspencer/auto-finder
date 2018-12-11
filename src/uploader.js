@@ -9,7 +9,7 @@ import Load from './load'
 
 const styles = {
   container: {
-    marginTop: '5rem'
+    marginTop: '1.5rem'
   },
   button: {
     margin: '0 auto',
@@ -28,7 +28,7 @@ const CaptureCard = withStyles({
   root: {
     width: '66%',
     maxWidth: '28rem',
-    margin: '60px auto'
+    margin: '1.5rem auto'
   }
 })(Card)
 
@@ -36,11 +36,16 @@ export default class Uploader extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
+      canvasSize: {
+        height: 0,
+        width: 0
+      }
     }
     this.video = React.createRef()
     this.canvas = React.createRef()
     this.handleCapture = this.handleCapture.bind(this)
+    this.startCapture = this.startCapture.bind(this)
   }
   startCapture() {
     const constraints = {
@@ -51,12 +56,20 @@ export default class Uploader extends React.Component {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         this.video.current.srcObject = stream
+        const settings = stream.getVideoTracks()[0].getSettings()
+        this.setState({
+          canvasSize: {
+            height: settings.height,
+            width: settings.width
+          }
+        })
       })
   }
   handleCapture() {
     this.setState({
       isLoading: true
     })
+    this.props.setLoad()
     const canvas = this.canvas.current
     const player = this.video.current
     const context = canvas.getContext('2d')
@@ -103,8 +116,8 @@ export default class Uploader extends React.Component {
                 <canvas
                   ref={this.canvas}
                   id="canvas"
-                  width="4000"
-                  height="3000"
+                  width={this.state.canvasSize.width}
+                  height={this.state.canvasSize.height}
                 ></canvas>
               </div>
             </CardContent>
