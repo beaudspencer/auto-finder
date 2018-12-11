@@ -59,7 +59,7 @@ export default class CarList extends React.Component {
     this.renderList = this.renderList.bind(this)
   }
   renderList() {
-    if (!this.props.car) {
+    if (!this.props.cars) {
       return (
         <Header
           variant="h5"
@@ -121,29 +121,32 @@ export default class CarList extends React.Component {
             this.renderList()
           }
         </List>
-        <div style={styles.container}>
-          {this.props.page > 0 &&
-              <PrevButton
-                id="prev"
-                onClick={this.handleClick}
+        {
+          this.props.cars &&
+            <div style={styles.container}>
+              {this.props.page > 0 &&
+                <PrevButton
+                  id="prev"
+                  onClick={this.handleClick}
+                >
+                  <ArrowBack/>
+                </PrevButton>}
+              {this.props.page + 1 < this.props.cars.length &&
+                <NextButton
+                  id="next"
+                  onClick={this.handleClick}
+                >
+                  <ArrowForward/>
+                </NextButton>}
+              <CurrentPage
+                variant="body1"
+                component="h6"
+                color="inherit"
               >
-                <ArrowBack/>
-              </PrevButton>}
-          {this.props.page + 1 < this.props.cars.length &&
-              <NextButton
-                id="next"
-                onClick={this.handleClick}
-              >
-                <ArrowForward/>
-              </NextButton>}
-          <CurrentPage
-            variant="body1"
-            component="h6"
-            color="inherit"
-          >
-            {this.props.page + 1}
-          </CurrentPage>
-        </div>
+                {this.props.page + 1}
+              </CurrentPage>
+            </div>
+        }
       </React.Fragment>
     )
   }
