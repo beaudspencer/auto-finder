@@ -4,7 +4,8 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  withStyles
+  withStyles,
+  ButtonBase
 } from '@material-ui/core'
 
 const RecentsCard = withStyles({
@@ -16,16 +17,33 @@ const RecentsCard = withStyles({
   }
 })(Card)
 
+const Instr = withStyles({
+  root: {
+    position: 'relative',
+    bottom: '0.75rem'
+  }
+})(Typography)
+
 export default function RecentCard(props) {
   const { car } = props
   return (
     <RecentsCard>
-      <CardMedia
-        component="img"
-        image={car.imageURL}
-        title={car.model}
-      />
+      <ButtonBase
+        focusRipple
+      >
+        <CardMedia
+          component="img"
+          image={car.imageURL}
+          title={car.model}
+        />
+      </ButtonBase>
       <CardContent>
+        <Instr
+          variant="caption"
+          component="p"
+        >
+          (Click Image To Search)
+        </Instr>
         <Typography
           component="h6"
           variant="h6"
