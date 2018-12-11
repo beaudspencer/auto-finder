@@ -182,6 +182,7 @@ export default class App extends React.Component {
     if (this.state.view.path === 'uploader') {
       return (
         <UploadContainer
+          search={this.pullListings}
           recents={this.state.recents}
           handleSubmit={this.handleSubmit}
         />

@@ -29,6 +29,7 @@ export default class UploadContainer extends React.Component {
         {
           !this.state.loading && <Recents
             recents={this.props.recents}
+            search={this.props.search}
           />
         }
       </React.Fragment>

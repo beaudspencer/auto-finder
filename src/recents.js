@@ -107,6 +107,7 @@ export default class Recents extends React.Component {
             <ArrowBack/>
           </PrevButton>
           <RecentCard
+            search={this.props.search}
             car={recents[current]}
           />
           <NexButton
