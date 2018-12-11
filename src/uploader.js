@@ -37,7 +37,7 @@ export default class Uploader extends React.Component {
     super(props)
     this.state = {
       isLoading: false,
-      cameras: null,
+      cameras: [],
       currentCamera: null,
       canvasSize: {
         height: 0,
@@ -58,6 +58,12 @@ export default class Uploader extends React.Component {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         this.video.current.srcObject = stream
+        const cameras = stream.getVideoTracks().map(track => {
+          return track.getConstraints().facingMode
+        })
+        this.setState({
+          cameras: cameras
+        })
         const settings = stream.getVideoTracks()[0].getSettings()
         this.setState({
           canvasSize: {
