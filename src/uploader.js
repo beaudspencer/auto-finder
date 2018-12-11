@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core'
 import Load from './load'
+import CamerasMenu from './cameras-menu'
 
 const styles = {
   container: {
@@ -38,7 +39,6 @@ export default class Uploader extends React.Component {
     this.state = {
       isLoading: false,
       cameras: [],
-      currentCamera: null,
       canvasSize: {
         height: 0,
         width: 0
@@ -48,6 +48,24 @@ export default class Uploader extends React.Component {
     this.canvas = React.createRef()
     this.handleCapture = this.handleCapture.bind(this)
     this.startCapture = this.startCapture.bind(this)
+  }
+  changeCamera(option) {
+    const constraints = {
+      video: {
+        facingMode: option
+      }
+    }
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then(stream => {
+        this.video.current.srcObject = stream
+        const settings = stream.getVideoTracks()[0].getSettings()
+        this.setState({
+          canvasSize: {
+            height: settings.height,
+            width: settings.width
+          }
+        })
+      })
   }
   startCapture() {
     const constraints = {
@@ -112,6 +130,9 @@ export default class Uploader extends React.Component {
           </Typography>
           <CaptureCard>
             <CardContent>
+              <CamerasMenu
+                cameras={this.state.cameras}
+              />
               <div style={styles.content}>
                 <video
                   ref={this.video}
