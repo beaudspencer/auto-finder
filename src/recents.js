@@ -65,7 +65,7 @@ export default class Recents extends React.Component {
   }
   handleClick(event) {
     const id = event.target.closest('[id]').id
-    if (id === 'next' && this.state.current < this.props.recents.length) {
+    if (id === 'next' && this.state.current < this.props.recents.length - 1) {
       this.setState({
         current: this.state.current + 1
       })
