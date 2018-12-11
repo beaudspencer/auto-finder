@@ -37,6 +37,8 @@ export default class Uploader extends React.Component {
     super(props)
     this.state = {
       isLoading: false,
+      cameras: null,
+      currentCamera: null,
       canvasSize: {
         height: 0,
         width: 0
