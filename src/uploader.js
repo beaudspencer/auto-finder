@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core'
 import Load from './load'
+import CamerasMenu from './cameras-menu'
 
 const styles = {
   container: {
@@ -21,6 +22,11 @@ const styles = {
   },
   canvas: {
     display: 'none'
+  },
+  menu: {
+    position: 'relative',
+    right: '2rem',
+    bottom: '0.5rem'
   }
 }
 
@@ -37,6 +43,7 @@ export default class Uploader extends React.Component {
     super(props)
     this.state = {
       isLoading: false,
+      cameras: [],
       canvasSize: {
         height: 0,
         width: 0
@@ -47,6 +54,24 @@ export default class Uploader extends React.Component {
     this.handleCapture = this.handleCapture.bind(this)
     this.startCapture = this.startCapture.bind(this)
   }
+  changeCamera(option) {
+    const constraints = {
+      video: {
+        facingMode: option
+      }
+    }
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then(stream => {
+        this.video.current.srcObject = stream
+        const settings = stream.getVideoTracks()[0].getSettings()
+        this.setState({
+          canvasSize: {
+            height: settings.height,
+            width: settings.width
+          }
+        })
+      })
+  }
   startCapture() {
     const constraints = {
       video: {
@@ -56,6 +81,12 @@ export default class Uploader extends React.Component {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         this.video.current.srcObject = stream
+        const cameras = stream.getVideoTracks().map(track => {
+          return track.getConstraints().facingMode
+        })
+        this.setState({
+          cameras: cameras
+        })
         const settings = stream.getVideoTracks()[0].getSettings()
         this.setState({
           canvasSize: {
@@ -104,6 +135,14 @@ export default class Uploader extends React.Component {
           </Typography>
           <CaptureCard>
             <CardContent>
+              <div
+                style={styles.menu}
+              >
+                <CamerasMenu
+                  cameras={this.state.cameras}
+                >
+                </CamerasMenu>
+              </div>
               <div style={styles.content}>
                 <video
                   ref={this.video}

@@ -148,13 +148,18 @@ export default class ListingList extends React.Component {
   renderHeading() {
     if (this.props.favorites) {
       return (
-        <ListingsTitle
-          variant="h6"
-          component="h2"
-          color="inherit"
-        >
-          Favorite Listings
-        </ListingsTitle>
+        <React.Fragment>
+          <FilterMenu
+            filterBy={this.filterBy}
+          />
+          <ListingsTitle
+            variant="h6"
+            component="h2"
+            color="inherit"
+          >
+            Favorite Listings
+          </ListingsTitle>
+        </React.Fragment>
       )
     }
     if (!this.props.listings) {
@@ -180,15 +185,20 @@ export default class ListingList extends React.Component {
     }
     else {
       return (
-        <ListingsTitle
-          variant="h6"
-          component="h2"
-          color="inherit"
-        >
-          {
-            `Showing Listings For ${this.query.make} ${this.query.model}`
-          }
-        </ListingsTitle>
+        <React.Fragment>
+          <FilterMenu
+            filterBy={this.filterBy}
+          />
+          <ListingsTitle
+            variant="h6"
+            component="h2"
+            color="inherit"
+          >
+            {
+              `Showing Listings For ${this.query.make} ${this.query.model}`
+            }
+          </ListingsTitle>
+        </React.Fragment>
       )
     }
   }
@@ -196,9 +206,6 @@ export default class ListingList extends React.Component {
     return (
       <React.Fragment>
         {this.renderHeading()}
-        <FilterMenu
-          filterBy={this.filterBy}
-        />
         {
           this.props.listings &&
           <React.Fragment>
