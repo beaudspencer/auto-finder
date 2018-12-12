@@ -22,6 +22,11 @@ const styles = {
   },
   canvas: {
     display: 'none'
+  },
+  menu: {
+    position: 'relative',
+    right: '2rem',
+    bottom: '0.5rem'
   }
 }
 
@@ -130,9 +135,14 @@ export default class Uploader extends React.Component {
           </Typography>
           <CaptureCard>
             <CardContent>
-              <CamerasMenu
-                cameras={this.state.cameras}
-              />
+              <div
+                style={styles.menu}
+              >
+                <CamerasMenu
+                  cameras={this.state.cameras}
+                >
+                </CamerasMenu>
+              </div>
               <div style={styles.content}>
                 <video
                   ref={this.video}
