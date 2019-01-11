@@ -12,7 +12,7 @@ Technologies Used:
   - HTML5
   - CSS3
   - JavaScript
-  - Amazon S3
+  - AWS S3
   - Algorithmia AI
   - Browser Geolocation API
   - Google Geocode API
